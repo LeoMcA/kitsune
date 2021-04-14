@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% if not title %}
-  {% set title = _('{title} | Media Gallery')|f(title=media.title) %}
+{% set title = _('{title} | Media Gallery')|f(title=media.title) %}
 {% endif %}
 {% set styles = ('gallery',) %}
 {% set scripts = ('wiki',) %}
 {% if not crumbs %}
-  {% set crumbs = [(url('gallery.gallery', media_type), _('Media Gallery')),
+{% set crumbs = [(url('gallery.gallery', media_type), _('Media Gallery')),
                    (None, media.title)] %}
 {% endif %}
 {% set delete_this = _('Delete this image') %}
@@ -14,100 +14,105 @@
 {% set meta = [('robots', 'noindex')] %}
 
 {% block content %}
-  <div id="media-object" class="sumo-page-content main">
-    {% if user.is_authenticated %}
-    <p>
-      <a id="btn-upload" class="sumo-button primary-button btn btn-submit" href="{{ url('gallery.gallery', media_type)|urlparams(hash='upload') }}">{{ _('Upload a New Media File') }}</a>
-      <br>
-    </p>
-    {% endif %}
+<div id="media-object" class="sumo-page-content main">
+  {% if user.is_authenticated %}
+  <p>
+    <a id="btn-upload" class="sumo-button primary-button btn btn-submit"
+      href="{{ url('gallery.gallery', media_type)|urlparams(hash='upload') }}">{{ _('Upload a New Media File') }}</a>
+    <br>
+  </p>
+  {% endif %}
 
-    <h1 class="sumo-page-heading">{{ media.title|truncate(length=55, killwords=True) }}</h1>
+  <h1 class="sumo-page-heading">{{ media.title|truncate(length=55, killwords=True) }}</h1>
 
 
-    <div class="content-box">
-      <div id="media-metainfo">
+  <div class="content-box">
+    <div id="media-metainfo">
 
-        <ul id="media-info" class="topic-article--meta-list">
-          {% if media_type =='image' %}
-            <li class="dimensions">
-              {{ media.file.width }} x {{ media.file.height }} px
-            </li>
-            <li class="size">
-              {{ media.file.size // 1024 }} KB
-            </li>
-            {% else %}{# video #}
-            {% if media.flv %}
-              <li class="format-flv">
-                FLV ({{ media.flv.size // 1024 }} KB)
-              </li>
-            {% endif %}
-            {% if media.ogv %}
-              <li class="format-ogv">
-                OGV ({{ media.ogv.size // 1024 }} KB)
-              </li>
-            {% endif %}
-            {% if media.webm %}
-              <li class="format-webm">
-                WEBM ({{ media.webm.size // 1024 }} KB)
-              </li>
-            {% endif %}
-          {% endif %}
-          {% if media_format %}
-            <li class="format">{{ media_format|upper }}</li>
-          {% endif %}
-        </ul>
-        <ul id="media-meta" class="topic-article--meta-list">
-          <li class="creator">
-              {{ _('by <a href="{profile_url}">{user}</a>')|fe
+      <ul id="media-info" class="topic-article--meta-list">
+        {% if media_type =='image' %}
+        <li class="dimensions">
+          {{ media.file.width }} x {{ media.file.height }} px
+        </li>
+        <li class="size">
+          {{ media.file.size // 1024 }} KB
+        </li>
+        {% else %}{# video #}
+        {% if media.flv %}
+        <li class="format-flv">
+          FLV ({{ media.flv.size // 1024 }} KB)
+        </li>
+        {% endif %}
+        {% if media.ogv %}
+        <li class="format-ogv">
+          OGV ({{ media.ogv.size // 1024 }} KB)
+        </li>
+        {% endif %}
+        {% if media.webm %}
+        <li class="format-webm">
+          WEBM ({{ media.webm.size // 1024 }} KB)
+        </li>
+        {% endif %}
+        {% endif %}
+        {% if media_format %}
+        <li class="format">{{ media_format|upper }}</li>
+        {% endif %}
+      </ul>
+      <ul id="media-meta" class="topic-article--meta-list">
+        <li class="creator">
+          {{ _('by <a href="{profile_url}">{user}</a>')|fe
                       (profile_url=profile_url(media.creator),
                       user=display_name(media.creator)) }}
-          </li>
-          <li class="created">{{ _('Uploaded {date}')|fe(date=datetimeformat(media.created, format='datetime')) }}</li>
-          <li class="locale">{{ settings.LANGUAGES_DICT[media.locale.lower()] }}</li>
-        </ul>
-      </div>
-      <div id="media-view">
-        {% if media_type == 'image' %}
-          <img src="{{ media.file.url }}" alt="{{ media.title }}" />
-        {% else %}
-          {{ generate_video(media) }}
-        {% endif %}
-      </div>
-
-      <h2 class="sumo-page-subheading">{{ _('Description') }}</h2>
-      <div class="description">{{ media.description|wiki_to_html }}</div>
-
+        </li>
+        <li class="created">
+          {{ _('Uploaded {date}')|fe(date=datetimeformat(media.created, format='datetime')) }}</li>
+        <li class="locale">{{ settings.LANGUAGES_DICT[media.locale.lower()] }}</li>
+      </ul>
+    </div>
+    <div id="media-view">
       {% if media_type == 'image' %}
-        <h2 class="sumo-page-subheading">{{ _('Articles') }}</h2>
-        {% set documents = media.documents %}
-        <div class="documents">
-          {% if documents %}
-            <p>{{ _('The following articles include this image:') }}</p>
-            <ul>
-              {% for doc in documents %}
-                <li><a href="{{ doc.get_absolute_url() }}">{{ doc.title }}</a></li>
-              {% endfor %}
-            </ul>
-          {% else %}
-            <p>{{ _('This image is not included in any articles.') }}</p>
-          {% endif %}
-        </div>
+      <img src="{{ media.file.url }}" alt="{{ media.title }}" />
+      {% else %}
+      {{ generate_video(media) }}
       {% endif %}
     </div>
-    <div class="submit">
-      <form id="media-actions" action="{{ url('gallery.delete_media', media_type, media.pk) }}" method="GET">
-        <div class="sumo-button-wrap">
+
+    <h2 class="sumo-page-subheading">{{ _('Description') }}</h2>
+    <div class="description">{{ media.description|wiki_to_html }}</div>
+
+    {% if media_type == 'image' %}
+    <h2 class="sumo-page-subheading">{{ _('Articles') }}</h2>
+    {% set documents = media.documents %}
+    <div class="documents">
+      {% if documents %}
+      <p>{{ _('The following articles include this image:') }}</p>
+      <ul>
+        {% for doc in documents %}
+        <li><a href="{{ doc.get_absolute_url() }}">{{ doc.title }}</a></li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>{{ _('This image is not included in any articles.') }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+  <div class="submit">
+    <form id="media-actions" action="{{ url('gallery.delete_media', media_type, media.pk) }}"
+      method="GET">
+      <div class="sumo-button-wrap">
         {% if user == media.creator or
           (media_type == 'image' and user.has_perm('gallery.delete_image')) or
           (media_type == 'video' and user.has_perm('gallery.delete_video')) %}
-          <button type="submit" class="sumo-button secondary-button btn btn-submit big">{{ delete_this }}</button>
+        <button type="submit"
+          class="sumo-button secondary-button btn btn-submit big">{{ delete_this }}</button>
         {% endif %}
         {% if media_type == 'image' and (user == media.creator or user.has_perm('gallery.change_image')) %}
-          <a class="btn sumo-button secondary-button" href="{{ url('gallery.edit_media', media_type, media.id) }}">{{ edit_this }}</a>
+        <a class="btn sumo-button secondary-button"
+          href="{{ url('gallery.edit_media', media_type, media.id) }}">{{ edit_this }}</a>
         {% endif %}
-        </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
+</div>
 {% endblock %}

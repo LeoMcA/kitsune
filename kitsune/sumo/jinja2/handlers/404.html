@@ -6,13 +6,14 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block masthead %}
-<div id="error-page"  class="search-results-visible page-not-found">
+<div id="error-page" class="search-results-visible page-not-found">
   <section class="home-search-section sumo-page-section--lg shade-bg">
     <div class="mzp-l-content">
       <div class="home-search-section--content">
         <h1 class="sumo-page-heading-xl">{{ title }}</h1>
-        <p class="sumo-page-intro">{% trans %}Sorry, we couldn't find the page you were looking for. Please,
-        try searching our site using the form below.{% endtrans %}</p>
+        <p class="sumo-page-intro">{% trans %}Sorry, we couldn't find the page you were looking
+          for. Please,
+          try searching our site using the form below.{% endtrans %}</p>
 
         {% import "search/basic-form.html" as form with context %}
         {{ form.form() }}

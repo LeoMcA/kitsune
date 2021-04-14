@@ -6,12 +6,12 @@
   <table id="settings">
     <tbody>
       {% for setting in settings %}
-        <tr>
-          <th id="{{ setting.key|slugify }}">
-            {{ setting.key }} <a href="#{{ setting.key|slugify }}">¶</a>
-          </th>
-          <td>{{ setting.value|pprint }}</td>
-        </tr>
+      <tr>
+        <th id="{{ setting.key|slugify }}">
+          {{ setting.key }} <a href="#{{ setting.key|slugify }}">¶</a>
+        </th>
+        <td>{{ setting.value|pprint }}</td>
+      </tr>
       {% endfor %}
     </tbody>
   </table>
@@ -21,7 +21,7 @@
   <h1>Python path</h1>
   <ol>
     {% for path in pythonpath %}
-      <li><code>{{ path }}</code></li>
+    <li><code>{{ path }}</code></li>
     {% endfor %}
   </ol>
 </section>

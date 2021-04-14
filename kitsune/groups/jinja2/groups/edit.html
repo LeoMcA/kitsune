@@ -3,15 +3,15 @@
 {% set title = _('Edit | {group} | Groups')|f(group=profile.group.name) %}
 
 {% block content %}
-  <article id="group-profile" class="main">
-    <h1>{{ _('Edit {group} profile information')|f(group=profile.group.name) }}</h1>
+<article id="group-profile" class="main">
+  <h1>{{ _('Edit {group} profile information')|f(group=profile.group.name) }}</h1>
 
-    <form action="" method="post">
-      {% csrf_token %}
-      {{ content_editor(form.information) }}
-      <input type="submit" name="save" value="{{ _('Save') }}" />
-    </form>
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ content_editor(form.information) }}
+    <input type="submit" name="save" value="{{ _('Save') }}" />
+  </form>
 
-    {# TODO: Preview <div id="doc-content"></div> #}
-  </article>
+  {# TODO: Preview <div id="doc-content"></div> #}
+</article>
 {% endblock %}

@@ -5,24 +5,24 @@
 {% set meta = [('robots', 'noindex, nofollow')] %}
 
 {% block content %}
-    <article id="locale-listing">
-      <h1 class="sumo-page-heading">{{ _('Locales') }}</h1>
-      <ul>
-        {% for locale in locales %}
-          <li>
-            <a href="{{ url('wiki.locale_details', locale.locale) }}">
-              [{{ locale.locale }}] {{ settings.LANGUAGES_DICT[locale.locale.lower()] }}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    </article>
+<article id="locale-listing">
+  <h1 class="sumo-page-heading">{{ _('Locales') }}</h1>
+  <ul>
+    {% for locale in locales %}
+    <li>
+      <a href="{{ url('wiki.locale_details', locale.locale) }}">
+        [{{ locale.locale }}] {{ settings.LANGUAGES_DICT[locale.locale.lower()] }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</article>
 {% endblock %}
 
 {% block side_top %}
-  <nav id="doc-tools">
-    <ul class="sidebar-nav sidebar-folding">
-      {{ for_contributors_sidebar(user, settings.WIKI_DEFAULT_LANGUAGE, True) }}
-    </ul>
-  </nav>
+<nav id="doc-tools">
+  <ul class="sidebar-nav sidebar-folding">
+    {{ for_contributors_sidebar(user, settings.WIKI_DEFAULT_LANGUAGE, True) }}
+  </ul>
+</nav>
 {% endblock %}

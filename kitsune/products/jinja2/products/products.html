@@ -9,10 +9,10 @@
 {% block hidden_search_masthead %}{% endblock %}
 
 {% block masthead %}
-<section class="home-search-section sumo-page-section shade-bg" id="products-and-services" >
+<section class="home-search-section sumo-page-section shade-bg" id="products-and-services">
   <div class="mzp-l-content">
     {% block breadcrumbs %}
-      {{ breadcrumbs(crumbs, id='main-breadcrumbs') }}
+    {{ breadcrumbs(crumbs, id='main-breadcrumbs') }}
     {% endblock %}
   </div>
   <div class="mzp-l-content narrow">
@@ -26,7 +26,7 @@
 
 
 {% block contentwrap %}
-  <section class="mzp-l-content sumo-page-section" id="main-content">
-    {{ product_cards(products) }}
-  </section>
+<section class="mzp-l-content sumo-page-section" id="main-content">
+  {{ product_cards(products) }}
+</section>
 {% endblock %}

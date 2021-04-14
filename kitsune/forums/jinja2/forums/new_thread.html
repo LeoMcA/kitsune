@@ -10,47 +10,48 @@
 {% set scripts = ('forums', 'jqueryui') %}
 
 {% block content %}
-  <div id="new-thread" class="sumo-page-section">
-    <h1 class="sumo-page-heading">{{ _('Create a new thread') }}</h1>
+<div id="new-thread" class="sumo-page-section">
+  <h1 class="sumo-page-heading">{{ _('Create a new thread') }}</h1>
 
-    <form action="{{ url('forums.new_thread', forum.slug) }}" method="post" class="new-thread">
-      {% csrf_token %}
-      {{ errorlist(form) }}
+  <form action="{{ url('forums.new_thread', forum.slug) }}" method="post" class="new-thread">
+    {% csrf_token %}
+    {{ errorlist(form) }}
 
-      {% if request.limited %}
-        <div class="warning-box mzp-c-notification-bar mzp-t-warning">
-          {{ _('You have exceeded the number of threads and replies that can be posted in a given amount of time. Please try again shortly.') }}
-        </div>
+    {% if request.limited %}
+    <div class="warning-box mzp-c-notification-bar mzp-t-warning">
+      {{ _('You have exceeded the number of threads and replies that can be posted in a given amount of time. Please try again shortly.') }}
+    </div>
+    {% endif %}
+
+    {% for field in form %}
+    <div class="form-widget field full-width{% if field.errors %} invalid{% endif %}">
+      {{ field.label_tag()|safe }}
+      {% if field.name == 'content' %}
+      <div class="content-box">
+        {{ content_editor(field) }}
+      </div>
+      {% else %}
+      {{ field|safe }}
       {% endif %}
+    </div>
+    {% endfor %}
 
-      {% for field in form %}
-        <div class="form-widget field full-width{% if field.errors %} invalid{% endif %}">
-          {{ field.label_tag()|safe }}
-          {% if field.name == 'content' %}
-            <div class="content-box">
-              {{ content_editor(field) }}
-            </div>
-          {% else %}
-            {{ field|safe }}
-          {% endif %}
-        </div>
-      {% endfor %}
+    <div class="form-widget submit sumo-button-wrap reverse-on-desktop">
+      <button type="submit" class="sumo-button primary-button">{{ _('Post Thread') }}</button>
+      <button type="submit" class="sumo-button secondary-button" id="preview" name="preview"
+        data-preview-url="{{ url('forums.post_preview_async') }}"
+        data-preview-container-id="post-preview"
+        data-preview-content-id="id_content">{{ _('Preview') }}
+      </button>
+      <a class="sumo-button secondary-button push-left"
+        href="{{ url('forums.threads', forum.slug) }}">{{ _('Cancel') }}</a>
+    </div>
 
-      <div class="form-widget submit sumo-button-wrap reverse-on-desktop">
-        <button type="submit" class="sumo-button primary-button">{{ _('Post Thread') }}</button>
-        <button type="submit" class="sumo-button secondary-button" id="preview" name="preview"
-                data-preview-url="{{ url('forums.post_preview_async') }}"
-                data-preview-container-id="post-preview"
-                data-preview-content-id="id_content">{{ _('Preview') }}
-        </button>
-        <a class="sumo-button secondary-button push-left" href="{{ url('forums.threads', forum.slug) }}">{{ _('Cancel') }}</a>
-      </div>
-
-      <div id="post-preview">
-        {% if post_preview %}
-          {% include "forums/includes/post_preview.html" %}
-        {% endif %}
-      </div>
-    </form>
-  </div>
+    <div id="post-preview">
+      {% if post_preview %}
+      {% include "forums/includes/post_preview.html" %}
+      {% endif %}
+    </div>
+  </form>
+</div>
 {% endblock %}

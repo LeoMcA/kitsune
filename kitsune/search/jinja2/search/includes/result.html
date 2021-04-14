@@ -13,7 +13,8 @@
   {% set url =  result.url %}
   <div class="topic-article--text">
     <h3 class="sumo-card-heading">
-      <a class="title" href="{{ url }}" {% if as == 'aaq' %}target="_blank" {% endif %}>{{ result.title }}</a>
+      <a class="title" href="{{ url }}" {% if as == 'aaq' %}target="_blank"
+        {% endif %}>{{ result.title }}</a>
     </h3>
 
     {% if result.type == 'question' or result.type == "thread" %}

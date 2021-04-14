@@ -6,14 +6,14 @@
 <article id="read-only" class="main">
   <h1>{{ _('Maintenance in progress') }}</h1>
   {% if request.method == 'POST' %}
-    <p>{% trans %}
-      This feature is temporarily disabled while we perform website maintenance.
-      Please use your browser's Back button and try again a little later.
+  <p>{% trans %}
+    This feature is temporarily disabled while we perform website maintenance.
+    Please use your browser's Back button and try again a little later.
     {% endtrans %}</p>
   {% else %}
-    <p>{% trans %}
-      Some features on this page are temporarily disabled while we perform
-      website maintenance. Please try again a little later.
+  <p>{% trans %}
+    Some features on this page are temporarily disabled while we perform
+    website maintenance. Please try again a little later.
     {% endtrans %}</p>
   {% endif %}
 </article>

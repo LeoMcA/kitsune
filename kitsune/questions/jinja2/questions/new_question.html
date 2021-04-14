@@ -11,24 +11,25 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block formwrap %}
-  {% if current_step == 1 %}
-    {{ select_product(products) }}
-  {% else %}
-    {{ super() }}
-  {% endif %}
+{% if current_step == 1 %}
+{{ select_product(products) }}
+{% else %}
+{{ super() }}
+{% endif %}
 {% endblock %}
 
 {% block contentwrap %}
-  {% if current_step == 2 %}
-    {{ explore_solutions(current_product, search_box, featured, topics, user) }}
-  {% else %}
-    {{ super() }}
-  {% endif %}
+{% if current_step == 2 %}
+{{ explore_solutions(current_product, search_box, featured, topics, user) }}
+{% else %}
+{{ super() }}
+{% endif %}
 {% endblock %}
 
 {% block major_detail_instructions %}
-  <h2 class="sumo-page-heading">{{ _('Ask your question') }}</h2>
+<h2 class="sumo-page-heading">{{ _('Ask your question') }}</h2>
 {% endblock %}
 
 {% block submit_button_value %}{{ _('Post Question') }}{% endblock %}
-{% block submit_button_attrs %}data-event-category="Ask A Question Flow" data-event-action="step 3 link"{% endblock %}
+{% block submit_button_attrs %}data-event-category="Ask A Question Flow" data-event-action="step 3
+link"{% endblock %}

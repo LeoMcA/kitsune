@@ -8,66 +8,65 @@
 {% set scripts = ('rickshaw', 'kpi.dashboard',) %}
 
 {% block below_main %}
-  <article id="kpi-dash" class="sumo-page-section">
-    <h1 class="sumo-page-heading">{{ _('Contributor Metrics') }}</h1>
-      <section id="kpi-cohort-analysis" data-url="/api/2/cohort" data-contributor-type="contributor:kb:en-US">
-      <h2 class="sumo-page-subheading">{{ _('Retention') }}</h2>
-      <div id="retention-chart" class="graph" data-chart-type="d3" data-slug="retention">
-        <div class="inline-controls">
-          <div>
-            <select id="toggle-cohort-type">
-              {# The locale code is not localizable - the data are for English only. #}
-              <option value="contributor:kb:en-US">en-US</option>
-              <option value="contributor:kb:l10n">{{ _('L10N') }}</option>
-              <option value="contributor:supportforum:helper">{{ _('Support Forum Help') }}</option>
-            </select>
-          </div>
+<article id="kpi-dash" class="sumo-page-section">
+  <h1 class="sumo-page-heading">{{ _('Contributor Metrics') }}</h1>
+  <section id="kpi-cohort-analysis" data-url="/api/2/cohort"
+    data-contributor-type="contributor:kb:en-US">
+    <h2 class="sumo-page-subheading">{{ _('Retention') }}</h2>
+    <div id="retention-chart" class="graph" data-chart-type="d3" data-slug="retention">
+      <div class="inline-controls">
+        <div>
+          <select id="toggle-cohort-type">
+            {# The locale code is not localizable - the data are for English only. #}
+            <option value="contributor:kb:en-US">en-US</option>
+            <option value="contributor:kb:l10n">{{ _('L10N') }}</option>
+            <option value="contributor:supportforum:helper">{{ _('Support Forum Help') }}</option>
+          </select>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="kpi-csat-enus"
-     data-url="{{ url('api.kpi.csat-contributors-kb-enus') }}">
+  <section id="kpi-csat-enus" data-url="{{ url('api.kpi.csat-contributors-kb-enus') }}">
 
-      {# The locale code is not localizable - the data are for English only. #}
-      <h2 class="sumo-page-subheading">{{ _('Contributor Satisfaction: %(locale)s', locale='en-US') }}</h2>
+    {# The locale code is not localizable - the data are for English only. #}
+    <h2 class="sumo-page-subheading">
+      {{ _('Contributor Satisfaction: %(locale)s', locale='en-US') }}</h2>
 
-      <div class="rickshaw">
-        <div class="inline-controls"></div>
-        <div class="graph-container">
-          <div class="slider"></div>
-          <div class="graph" data-chart-type="rickshaw" data-slug="csat"></div>
-        </div>
+    <div class="rickshaw">
+      <div class="inline-controls"></div>
+      <div class="graph-container">
+        <div class="slider"></div>
+        <div class="graph" data-chart-type="rickshaw" data-slug="csat"></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="kpi-csat-l10n"
-     data-url="{{ url('api.kpi.csat-contributors-kb-l10n') }}">
+  <section id="kpi-csat-l10n" data-url="{{ url('api.kpi.csat-contributors-kb-l10n') }}">
 
-      <h2 class="sumo-page-subheading">{{ _('Contributor Satisfaction: l10n') }}</h2>
+    <h2 class="sumo-page-subheading">{{ _('Contributor Satisfaction: l10n') }}</h2>
 
-      <div class="rickshaw">
-        <div class="inline-controls"></div>
-        <div class="graph-container">
-          <div class="slider"></div>
-          <div class="graph" data-chart-type="rickshaw" data-slug="csat"></div>
-        </div>
+    <div class="rickshaw">
+      <div class="inline-controls"></div>
+      <div class="graph-container">
+        <div class="slider"></div>
+        <div class="graph" data-chart-type="rickshaw" data-slug="csat"></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="kpi-csat-support"
-     data-url="{{ url('api.kpi.csat-contributors-support-forum') }}">
+  <section id="kpi-csat-support" data-url="{{ url('api.kpi.csat-contributors-support-forum') }}">
 
-      <h2 class="sumo-page-subheading">{{ _('Contributor Satisfaction: Support Forum') }}</h2>
+    <h2 class="sumo-page-subheading">{{ _('Contributor Satisfaction: Support Forum') }}</h2>
 
-      <div class="rickshaw">
-        <div class="inline-controls"></div>
-        <div class="graph-container">
-          <div class="slider"></div>
-          <div class="graph" data-chart-type="rickshaw" data-slug="csat"></div>
-        </div>
+    <div class="rickshaw">
+      <div class="inline-controls"></div>
+      <div class="graph-container">
+        <div class="slider"></div>
+        <div class="graph" data-chart-type="rickshaw" data-slug="csat"></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </article>
+</article>
 {% endblock %}

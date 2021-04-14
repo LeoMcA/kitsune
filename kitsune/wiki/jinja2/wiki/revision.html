@@ -9,93 +9,96 @@
 {% set meta = [('robots', 'noindex, nofollow')] %}
 
 {% block content %}
-    <article class="wiki-doc">
-      <h1 class="sumo-page-heading">{{ document.title }}</h1>
-      <details class="h2" open="open">
-        <summary class="sumo-card-heading">{{ _('Revision Information') }}</summary>
-        <div class="revision-info">
-          <ul>
-            <li>
-              <strong>{{ _('Revision id:') }}</strong>
-              <span>{{ revision.id }}</span>
-            </li>
-            <li>
-              <strong>{{ _('Created:') }}</strong>
-              <span>{{ datetimeformat(revision.created, format='datetime') }}</span>
-            </li>
-            <li>
-              <strong>{{ _('Creator:') }}</strong>
-              <span><a href="{{ profile_url(revision.creator) }}">{{ display_name(revision.creator) }}</a></span>
-            </li>
-            <li>
-              <strong>{{ _('Comment:') }}</strong>
-              <span>{{ revision.comment }}</span>
-            </li>
-            <li>
-              <strong>{{ _('Reviewed:') }}</strong>
-              <span>{{ revision.reviewed|yesno }}</span>
-            </li>
-            {% if revision.reviewed %}
-              <li>
-                <strong>{{ _('Reviewed:') }}</strong>
-                <span>{{ datetimeformat(revision.reviewed, format='datetime') }}</span>
-              </li>
-              <li>
-                <strong>{{ _('Reviewed by:') }}</strong>
-                <span>{{ revision.reviewer }}</span>
-              </li>
-              <li>
-                <strong>{{ _('Is approved?') }}</strong>
-                <span>{{ revision.is_approved|yesno }}</span>
-              </li>
-              <li>
-                <strong>{{ _('Is current revision?') }}</strong>
-                <span>{{ (revision == document.current_revision)|yesno }}</span>
-              </li>
-            {% endif %}
-            <li>
-              <strong>{{ _('Ready for localization:') }}</strong>
-              <span>{{ revision.is_ready_for_localization|yesno }}</span>
-            </li>
-            {% if revision.readied_for_localization %}
-              <li>
-                <strong>{{ _('Readied for localization:') }}</strong>
-                <span>{{ datetimeformat(revision.readied_for_localization, format='datetime') }}</span>
-              </li>
-            {% endif %}
-            {% if revision.readied_for_localization_by %}
-              <li>
-                <strong>{{ _('Readied for localization by:') }}</strong>
-                <span>{{ revision.readied_for_localization_by }}</span>
-              </li>
-            {% endif %}
-            {% if user.is_authenticated %}
-              <li><a href="{{ url('wiki.new_revision_based_on', document.slug, revision.id) }}">{{ _('Edit article based on this revision') }}</a></li>
-            {% endif %}
-          </ul>
-        </div>
-      </details>
-      <details class="h2">
-        <summary class="sumo-card-heading">{{ _('Revision Source') }}</summary>
-        <div id="doc-source">
-          <textarea readonly="readonly">{{ revision.content }}</textarea>
-        </div>
-      </details>
-      <details class="h2">
-        <summary class="sumo-card-heading">{{ _('Revision Content') }}</summary>
-        <div id="doc-content">
-          {{ revision.content_parsed|safe }}
-        </div>
-      </details>
-    </article>
+<article class="wiki-doc">
+  <h1 class="sumo-page-heading">{{ document.title }}</h1>
+  <details class="h2" open="open">
+    <summary class="sumo-card-heading">{{ _('Revision Information') }}</summary>
+    <div class="revision-info">
+      <ul>
+        <li>
+          <strong>{{ _('Revision id:') }}</strong>
+          <span>{{ revision.id }}</span>
+        </li>
+        <li>
+          <strong>{{ _('Created:') }}</strong>
+          <span>{{ datetimeformat(revision.created, format='datetime') }}</span>
+        </li>
+        <li>
+          <strong>{{ _('Creator:') }}</strong>
+          <span><a
+              href="{{ profile_url(revision.creator) }}">{{ display_name(revision.creator) }}</a></span>
+        </li>
+        <li>
+          <strong>{{ _('Comment:') }}</strong>
+          <span>{{ revision.comment }}</span>
+        </li>
+        <li>
+          <strong>{{ _('Reviewed:') }}</strong>
+          <span>{{ revision.reviewed|yesno }}</span>
+        </li>
+        {% if revision.reviewed %}
+        <li>
+          <strong>{{ _('Reviewed:') }}</strong>
+          <span>{{ datetimeformat(revision.reviewed, format='datetime') }}</span>
+        </li>
+        <li>
+          <strong>{{ _('Reviewed by:') }}</strong>
+          <span>{{ revision.reviewer }}</span>
+        </li>
+        <li>
+          <strong>{{ _('Is approved?') }}</strong>
+          <span>{{ revision.is_approved|yesno }}</span>
+        </li>
+        <li>
+          <strong>{{ _('Is current revision?') }}</strong>
+          <span>{{ (revision == document.current_revision)|yesno }}</span>
+        </li>
+        {% endif %}
+        <li>
+          <strong>{{ _('Ready for localization:') }}</strong>
+          <span>{{ revision.is_ready_for_localization|yesno }}</span>
+        </li>
+        {% if revision.readied_for_localization %}
+        <li>
+          <strong>{{ _('Readied for localization:') }}</strong>
+          <span>{{ datetimeformat(revision.readied_for_localization, format='datetime') }}</span>
+        </li>
+        {% endif %}
+        {% if revision.readied_for_localization_by %}
+        <li>
+          <strong>{{ _('Readied for localization by:') }}</strong>
+          <span>{{ revision.readied_for_localization_by }}</span>
+        </li>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <li><a
+            href="{{ url('wiki.new_revision_based_on', document.slug, revision.id) }}">{{ _('Edit article based on this revision') }}</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </details>
+  <details class="h2">
+    <summary class="sumo-card-heading">{{ _('Revision Source') }}</summary>
+    <div id="doc-source">
+      <textarea readonly="readonly">{{ revision.content }}</textarea>
+    </div>
+  </details>
+  <details class="h2">
+    <summary class="sumo-card-heading">{{ _('Revision Content') }}</summary>
+    <div id="doc-content">
+      {{ revision.content_parsed|safe }}
+    </div>
+  </details>
+</article>
 {% endblock %}
 
 {% block side_top %}
-  {{ document_tools(document, document.parent, user, '', settings) }}
+{{ document_tools(document, document.parent, user, '', settings) }}
 {% endblock %}
 
 {% block side_bottom %}
-  <div>
-    {{ show_for(document.get_products(), header=_('Article is for:')) }}
-  </div>
+<div>
+  {{ show_for(document.get_products(), header=_('Article is for:')) }}
+</div>
 {% endblock %}

@@ -49,14 +49,18 @@
     <table>
       <thead>
         <tr class="threads-columns {% if not desc_toggle %}desc{% endif %}">
-          <th class="type"><a href="{{ url('forums.threads', forum_slug=forum.slug) }}">{{ _('Type') }}</a></th>
+          <th class="type"><a
+              href="{{ url('forums.threads', forum_slug=forum.slug) }}">{{ _('Type') }}</a></th>
           <th class="title">{{ _('Title') }}</th>
           <th class="author{% if sort == 3 %} sort{% endif %}"><a
-              href="{{ request.path|urlparams(sort=3, desc=desc_toggle) }}">{{ _('Author') }}</a></th>
+              href="{{ request.path|urlparams(sort=3, desc=desc_toggle) }}">{{ _('Author') }}</a>
+          </th>
           <th class="replies{% if sort == 4 %} sort{% endif %}"><a
-              href="{{ request.path|urlparams(sort=4, desc=desc_toggle) }}">{{ _('Replies') }}</a></th>
+              href="{{ request.path|urlparams(sort=4, desc=desc_toggle) }}">{{ _('Replies') }}</a>
+          </th>
           <th class="last-post{% if sort == 5 %} sort{% endif %}"><a
-              href="{{ request.path|urlparams(sort=5, desc=desc_toggle) }}">{{ _('Last Post') }}</a></th>
+              href="{{ request.path|urlparams(sort=5, desc=desc_toggle) }}">{{ _('Last Post') }}</a>
+          </th>
         </tr>
       </thead>
       <tbody class="threads">

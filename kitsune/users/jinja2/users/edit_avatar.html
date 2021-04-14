@@ -5,16 +5,16 @@
                  (None, title)] %}
 
 {% block content %}
-    <article id="change-avatar" class="main sumo-page-section">
-      <h1 class="sumo-page-heading">{{ title }}</h1>
-      <form method="post" action="" enctype="multipart/form-data">
-        {% csrf_token %}
-        <ul>
-          {{ form.as_ul()|safe }}
-        </ul>
-        <div class="submit">
-          <input type="submit" value="{{ pgettext('avatar', 'Upload') }}" />
-        </div>
-      </form>
-    </article>
+<article id="change-avatar" class="main sumo-page-section">
+  <h1 class="sumo-page-heading">{{ title }}</h1>
+  <form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <ul>
+      {{ form.as_ul()|safe }}
+    </ul>
+    <div class="submit">
+      <input type="submit" value="{{ pgettext('avatar', 'Upload') }}" />
+    </div>
+  </form>
+</article>
 {% endblock %}

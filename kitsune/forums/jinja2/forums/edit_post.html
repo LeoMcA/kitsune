@@ -11,35 +11,37 @@
 {% set scripts = ('forums', 'jqueryui') %}
 
 {% block content %}
-  <div id="edit-post" class="grid_12">
-    <h1>{{ _('Edit a post') }}</h1>
+<div id="edit-post" class="grid_12">
+  <h1>{{ _('Edit a post') }}</h1>
 
-    <form action="{{ url('forums.edit_post', forum.slug, thread.id, post.id) }}" method="post" class="edit-post">
-      {% csrf_token %}
-      {{ errorlist(form) }}
+  <form action="{{ url('forums.edit_post', forum.slug, thread.id, post.id) }}" method="post"
+    class="edit-post">
+    {% csrf_token %}
+    {{ errorlist(form) }}
 
-      <div class="form-widget{% if form.content.errors %} invalid{% endif %}">
-        {{ form.content.label_tag()|safe }}
-        <div class="content-box">
-          {{ content_editor(form.content) }}
-        </div>
+    <div class="form-widget{% if form.content.errors %} invalid{% endif %}">
+      {{ form.content.label_tag()|safe }}
+      <div class="content-box">
+        {{ content_editor(form.content) }}
       </div>
-
-      <div class="form-widget submit sumo-button-wrap reverse-on-desktop">
-        <button type="submit" class="sumo-button primary-button">{{ _('Update post') }}</button>
-        <button type="submit" id="preview" name="preview" class="sumo-button secondary-button"
-               data-preview-url="{{ url('forums.post_preview_async') }}"
-               data-preview-container-id="post-preview"
-               data-preview-content-id="id_content">{{ _('Preview') }}
-        </button>
-        <a class="sumo-button push-left" href="{{ url('forums.posts', forum.slug, thread.id) }}">{{ _('Cancel') }}</a>
-      </div>
-    </form>
-
-    <div id="post-preview">
-      {% if post_preview %}
-        {% include "forums/includes/post_preview.html" %}
-      {% endif %}
     </div>
+
+    <div class="form-widget submit sumo-button-wrap reverse-on-desktop">
+      <button type="submit" class="sumo-button primary-button">{{ _('Update post') }}</button>
+      <button type="submit" id="preview" name="preview" class="sumo-button secondary-button"
+        data-preview-url="{{ url('forums.post_preview_async') }}"
+        data-preview-container-id="post-preview"
+        data-preview-content-id="id_content">{{ _('Preview') }}
+      </button>
+      <a class="sumo-button push-left"
+        href="{{ url('forums.posts', forum.slug, thread.id) }}">{{ _('Cancel') }}</a>
+    </div>
+  </form>
+
+  <div id="post-preview">
+    {% if post_preview %}
+    {% include "forums/includes/post_preview.html" %}
+    {% endif %}
   </div>
+</div>
 {% endblock %}

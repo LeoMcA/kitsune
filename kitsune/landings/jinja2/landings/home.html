@@ -36,12 +36,12 @@
     {{ product_cards(products) }}
   </section>
   {% if featured %}
-    <section class="mzp-l-content sumo-page-section--inner">
-      <div class="text-center-to-left-on-large">
-        <h2 class="sumo-page-subheading">{{ _('Featured Articles') }}</h2>
-      </div>
-      {{ featured_articles(featured) }}
-    </section>
+  <section class="mzp-l-content sumo-page-section--inner">
+    <div class="text-center-to-left-on-large">
+      <h2 class="sumo-page-subheading">{{ _('Featured Articles') }}</h2>
+    </div>
+    {{ featured_articles(featured) }}
+  </section>
   {% endif %}
   <section class="mzp-l-content sumo-page-section--inner">
     {% include "landings/includes/join-our-community-callout.html" %}

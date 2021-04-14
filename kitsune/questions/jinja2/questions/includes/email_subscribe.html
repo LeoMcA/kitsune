@@ -15,7 +15,8 @@
     {# This is hard-coded to get correct radio layout {{ watch_form.event_type|safe }} #}
     <ul id="id_event_type">
       <li class="field radio is-condensed">
-        <input type="radio" name="event_type" value="reply" required="" checked="" id="id_event_type_0">
+        <input type="radio" name="event_type" value="reply" required="" checked=""
+          id="id_event_type_0">
         <label for="id_event_type_0">when anybody replies.</label>
       </li>
       <li class="field radio is-condensed">
@@ -25,10 +26,12 @@
     </ul>
 
     <div class="sumo-button-wrap reverse-on-desktop align-full">
-      <input type="submit" class="sumo-button primary-button button-lg" value="{{ _('Send Updates') }}" />
-    <span class="cancel">
-      <button type="button" class="sumo-button button-lg" data-sumo-modal-close>{{ _('Cancel') }}</button>
-    </span>
+      <input type="submit" class="sumo-button primary-button button-lg"
+        value="{{ _('Send Updates') }}" />
+      <span class="cancel">
+        <button type="button" class="sumo-button button-lg"
+          data-sumo-modal-close>{{ _('Cancel') }}</button>
+      </span>
     </div>
   </form>
 </section>

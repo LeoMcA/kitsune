@@ -5,21 +5,21 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-  <section id="switch-locales">
-    <h1 class="sumo-page-heading">{{ title }}</h1>
-    <ul class="columns-list">
-      {% for locale in settings.LANGUAGE_CHOICES %}
-        {% set locale_link_elem %}
-          <a lang="{{ locale[0] }}" hreflang="{{ locale[0] }}"
-            href="{{ next_url|urlparams(lang=locale[0]) }}">{{ locale[1] }}
-          </a>
-        {% endset %}
-        <li>
-          {{ locale_link_elem|linkify|safe }}
-        </li>
-      {% endfor %}
-    </ul>
-  </section>
+<section id="switch-locales">
+  <h1 class="sumo-page-heading">{{ title }}</h1>
+  <ul class="columns-list">
+    {% for locale in settings.LANGUAGE_CHOICES %}
+    {% set locale_link_elem %}
+    <a lang="{{ locale[0] }}" hreflang="{{ locale[0] }}"
+      href="{{ next_url|urlparams(lang=locale[0]) }}">{{ locale[1] }}
+    </a>
+    {% endset %}
+    <li>
+      {{ locale_link_elem|linkify|safe }}
+    </li>
+    {% endfor %}
+  </ul>
+</section>
 {% endblock %}
 
 {% block for_contributors %}{% endblock %}

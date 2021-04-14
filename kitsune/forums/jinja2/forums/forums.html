@@ -26,7 +26,8 @@
           <tr>
             <td class="name">
               <h5 class="sumo-card-heading"><a
-                  href="{{ url('forums.threads', forum_slug=forum.slug) }}">{{ forum.name }}</a></h5>
+                  href="{{ url('forums.threads', forum_slug=forum.slug) }}">{{ forum.name }}</a>
+              </h5>
               {{ forum.description|safe }}
             </td>
             <td class="threads">{{ forum.thread_count }}</td>

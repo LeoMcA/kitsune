@@ -9,131 +9,147 @@
 (None, thread.title)] %}
 {% set canonical_url = canonicalize(viewname='forums.posts', forum_slug=forum.slug, thread_id=thread.id) %}
 {% if posts.number > 1 %}
-  {% set canonical_url = canonical_url|urlparams(page=posts.number) %}
+{% set canonical_url = canonical_url|urlparams(page=posts.number) %}
 {% endif %}
 {% set styles = ('forums', 'jqueryui') %}
 {% set scripts = ('forums', 'jqueryui') %}
 
 
 {% block content %}
-  <article id="posts" class="sumo-page-section">
-    <p class="sumo-page-subheading" id="forum-title">{{ forum.name }}</p>
-    <h1 class="sumo-page-heading">{{ thread.title }}</h1>
+<article id="posts" class="sumo-page-section">
+  <p class="sumo-page-subheading" id="forum-title">{{ forum.name }}</p>
+  <h1 class="sumo-page-heading">{{ thread.title }}</h1>
 
-    <ul class="topic-article--meta-list" id="thread-meta">
-      {% if count %}<li>{{ ngettext('{0} Reply', '{0} Replies', (count - 1))|f(count - 1) }}</li>{% endif %}
-      {% if last_post %}<li>{{ _('Last reply by') }} {{ display_name(last_post.author) }}</li>{% endif %}
-      {% if thread.is_sticky %}<li>{{ _('Sticky') }}</li>{% endif %}
-      {% if thread.is_locked %}<li>{{ _('Locked') }}</li>{% endif %}
-    </ul>
-    {% if user.is_authenticated %}
-      <form action="{{ url('forums.watch_thread', forum_slug=forum.slug, thread_id=thread.id) }}" method="post">
-        {% csrf_token %}
-        {% if is_watching_thread %}
-          {% set watch = _('Stop watching this thread') %}
-          <input type="hidden" name="watch" value="no" />
-        {% else %}
-          {% set watch = _('Watch this thread') %}
-          <input type="hidden" name="watch" value="yes" />
-        {% endif %}
-        <button type="submit" title="{{ watch }}" class="sumo-button button-sm" id="watch-thread-toggle">{{ watch }}</button>
-      </form>
+  <ul class="topic-article--meta-list" id="thread-meta">
+    {% if count %}<li>{{ ngettext('{0} Reply', '{0} Replies', (count - 1))|f(count - 1) }}</li>
     {% endif %}
-
-    {% if posts %}
-      <ol class="posts">
-        {% for post in posts.object_list %}
-          <li class="forum--entry" id="post-{{ post.id }}">
-            {% include "forums/includes/post.html" %}
-          </li>
-        {% endfor %}
-      </ol>
-
-      {{ posts|paginator }}
-
+    {% if last_post %}<li>{{ _('Last reply by') }} {{ display_name(last_post.author) }}</li>
+    {% endif %}
+    {% if thread.is_sticky %}<li>{{ _('Sticky') }}</li>{% endif %}
+    {% if thread.is_locked %}<li>{{ _('Locked') }}</li>{% endif %}
+  </ul>
+  {% if user.is_authenticated %}
+  <form action="{{ url('forums.watch_thread', forum_slug=forum.slug, thread_id=thread.id) }}"
+    method="post">
+    {% csrf_token %}
+    {% if is_watching_thread %}
+    {% set watch = _('Stop watching this thread') %}
+    <input type="hidden" name="watch" value="no" />
     {% else %}
-      <p>{{ _('Oh, no! Looks like there are no posts!') }}</p>
+    {% set watch = _('Watch this thread') %}
+    <input type="hidden" name="watch" value="yes" />
     {% endif %}
+    <button type="submit" title="{{ watch }}" class="sumo-button button-sm"
+      id="watch-thread-toggle">{{ watch }}</button>
+  </form>
+  {% endif %}
 
-    {% if user.is_authenticated and not thread.is_locked and forum.allows_posting_by(user) %}
-      <form action="{{ url('forums.reply', forum.slug, thread.id)|urlparams(hash='post-reply') }}" method="post" class="sumo-page-section">
-        {% csrf_token %}
-        <h3 class="sumo-card-heading" id="thread-reply-title">{{ _('Post a reply') }}</h3>
-        {{ errorlist(form) }}
+  {% if posts %}
+  <ol class="posts">
+    {% for post in posts.object_list %}
+    <li class="forum--entry" id="post-{{ post.id }}">
+      {% include "forums/includes/post.html" %}
+    </li>
+    {% endfor %}
+  </ol>
 
-        {% if request.limited %}
-          <div class="warning-box">
-            {{ _('You have exceeded the number of threads and replies that can be posted in a given amount of time. Please try again shortly.') }}
-          </div>
-        {% endif %}
+  {{ posts|paginator }}
 
-        <div id="thread-reply">
-          {{ content_editor(form.content) }}
-        </div>
-        <div class="editor-actions sumo-button-wrap reverse-on-desktop align-end">
-          <button type="submit" class="sumo-button primary-button">{{ _('Post Reply') }}</button>
-          <button type="submit" class="sumo-button secondary-button" id="preview" name="preview"
-                 data-preview-url="{{ url('forums.post_preview_async') }}"
-                 data-preview-container-id="post-preview"
-                 data-preview-content-id="id_content">{{ _('Preview Reply') }}
-          </button>
-        </div>
-      </form>
-    {% elif user.is_authenticated and thread.is_locked %}
-      <div id="thread-reply">
-        <p id="thread-locked">{{ _('This thread has been locked. It is no longer possible to post new replies.') }}</p>
-      </div>
-    {% endif %}
-    <div id="post-preview">
-      {% if post_preview %}
-        {% include "forums/includes/post_preview.html" %}
-      {% endif %}
+  {% else %}
+  <p>{{ _('Oh, no! Looks like there are no posts!') }}</p>
+  {% endif %}
+
+  {% if user.is_authenticated and not thread.is_locked and forum.allows_posting_by(user) %}
+  <form action="{{ url('forums.reply', forum.slug, thread.id)|urlparams(hash='post-reply') }}"
+    method="post" class="sumo-page-section">
+    {% csrf_token %}
+    <h3 class="sumo-card-heading" id="thread-reply-title">{{ _('Post a reply') }}</h3>
+    {{ errorlist(form) }}
+
+    {% if request.limited %}
+    <div class="warning-box">
+      {{ _('You have exceeded the number of threads and replies that can be posted in a given amount of time. Please try again shortly.') }}
     </div>
-  </article>
+    {% endif %}
+
+    <div id="thread-reply">
+      {{ content_editor(form.content) }}
+    </div>
+    <div class="editor-actions sumo-button-wrap reverse-on-desktop align-end">
+      <button type="submit" class="sumo-button primary-button">{{ _('Post Reply') }}</button>
+      <button type="submit" class="sumo-button secondary-button" id="preview" name="preview"
+        data-preview-url="{{ url('forums.post_preview_async') }}"
+        data-preview-container-id="post-preview"
+        data-preview-content-id="id_content">{{ _('Preview Reply') }}
+      </button>
+    </div>
+  </form>
+  {% elif user.is_authenticated and thread.is_locked %}
+  <div id="thread-reply">
+    <p id="thread-locked">
+      {{ _('This thread has been locked. It is no longer possible to post new replies.') }}</p>
+  </div>
+  {% endif %}
+  <div id="post-preview">
+    {% if post_preview %}
+    {% include "forums/includes/post_preview.html" %}
+    {% endif %}
+  </div>
+</article>
 {% endblock %}
 
 {% block side %}
-  <ul id="thread-actions" class="sidebar-nav">
-    {% if not thread.is_locked and
+<ul id="thread-actions" class="sidebar-nav">
+  {% if not thread.is_locked and
       has_perm_or_owns('forums_forum.thread_edit_forum', thread, forum) %}
-      <li><a href="{{ url('forums.edit_thread', forum.slug, thread.id) }}">{{ _('Edit Thread Title') }}</a></li>
-    {% endif %}
-    {% if has_perm('forums_forum.thread_delete_forum', forum) %}
-      <li><a href="{{ url('forums.delete_thread', forum.slug, thread.id) }}">{{ _('Delete this thread') }}</a></li>
-    {% endif %}
-    {% if has_perm('forums_forum.thread_locked_forum', forum) %}
-      <li>
-        <form id="thread-lock-form" action="{{ url('forums.lock_thread', forum.slug, thread.id) }}" method="post">
-          {% csrf_token %}
-        </form>
-        <a data-type="submit" data-form="thread-lock-form">{% if thread.is_locked %}{{ _('Unlock this thread') }}{% else %}{{ _('Lock this thread') }}{% endif %}</a>
-      </li>
-    {% endif %}
-    {% if has_perm('forums_forum.thread_sticky_forum', forum) %}
-      <li>
-        <form id="thread-sticky-form" action="{{ url('forums.sticky_thread', forum.slug, thread.id) }}" method="post">
-          {% csrf_token %}
-        </form>
-        <a data-type="submit" data-form="thread-sticky-form">{% if thread.is_sticky %}{{ _('Unsticky this thread') }}{% else %}{{ _('Sticky this thread') }}{% endif %}</a>
-      </li>
-    {% endif %}
-  </ul>
-
-  {% if has_perm('forums_forum.thread_move_forum', forum) %}
-    <form id="move-thread-form" class="forum--sidebar-form"  action="{{ url('forums.move_thread', forum.slug, thread.id) }}" method="post">
-      {% csrf_token %}
-      <div class="field is-condensed">
-        <select name="forum">
-          {% for f in forums %}
-            {% if has_perm('forums_forum.thread_move_forum', f) %}
-              <option value="{{ f.id }}" {% if f == forum %}selected="selected"{% endif %}>{{ f.name }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-      <input type="submit" class="sumo-button primary-button button-sm" value="Move Thread" />
-      </form>
+  <li><a
+      href="{{ url('forums.edit_thread', forum.slug, thread.id) }}">{{ _('Edit Thread Title') }}</a>
+  </li>
   {% endif %}
+  {% if has_perm('forums_forum.thread_delete_forum', forum) %}
+  <li><a
+      href="{{ url('forums.delete_thread', forum.slug, thread.id) }}">{{ _('Delete this thread') }}</a>
+  </li>
+  {% endif %}
+  {% if has_perm('forums_forum.thread_locked_forum', forum) %}
+  <li>
+    <form id="thread-lock-form" action="{{ url('forums.lock_thread', forum.slug, thread.id) }}"
+      method="post">
+      {% csrf_token %}
+    </form>
+    <a data-type="submit"
+      data-form="thread-lock-form">{% if thread.is_locked %}{{ _('Unlock this thread') }}{% else %}{{ _('Lock this thread') }}{% endif %}</a>
+  </li>
+  {% endif %}
+  {% if has_perm('forums_forum.thread_sticky_forum', forum) %}
+  <li>
+    <form id="thread-sticky-form" action="{{ url('forums.sticky_thread', forum.slug, thread.id) }}"
+      method="post">
+      {% csrf_token %}
+    </form>
+    <a data-type="submit"
+      data-form="thread-sticky-form">{% if thread.is_sticky %}{{ _('Unsticky this thread') }}{% else %}{{ _('Sticky this thread') }}{% endif %}</a>
+  </li>
+  {% endif %}
+</ul>
 
-  {{ for_contributors_sidebar(user, settings.WIKI_DEFAULT_LANGUAGE, active='forums') }}
+{% if has_perm('forums_forum.thread_move_forum', forum) %}
+<form id="move-thread-form" class="forum--sidebar-form"
+  action="{{ url('forums.move_thread', forum.slug, thread.id) }}" method="post">
+  {% csrf_token %}
+  <div class="field is-condensed">
+    <select name="forum">
+      {% for f in forums %}
+      {% if has_perm('forums_forum.thread_move_forum', f) %}
+      <option value="{{ f.id }}" {% if f == forum %}selected="selected" {% endif %}>{{ f.name }}
+      </option>
+      {% endif %}
+      {% endfor %}
+    </select>
+  </div>
+  <input type="submit" class="sumo-button primary-button button-sm" value="Move Thread" />
+</form>
+{% endif %}
+
+{{ for_contributors_sidebar(user, settings.WIKI_DEFAULT_LANGUAGE, active='forums') }}
 {% endblock %}

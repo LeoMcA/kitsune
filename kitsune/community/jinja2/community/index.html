@@ -12,9 +12,12 @@
       <article class="community-news">
         <section class="sumo-page-section--sm">
           <h2 class="sumo-page-subheading">{{ _('Find your fellow contributors') }}</h2>
-          <form class="simple-search-form" name="find-contributor" id="find-contributor" action="{{ url('community.search') }}" method="get">
-            <input type="text" name="q" id="search" placeholder="{{ _('Username or Display Name') }}" />
-            <button type="submit" title="{{ _('Search') }}" class="search-button">{{ _('Search') }}</button>
+          <form class="simple-search-form" name="find-contributor" id="find-contributor"
+            action="{{ url('community.search') }}" method="get">
+            <input type="text" name="q" id="search"
+              placeholder="{{ _('Username or Display Name') }}" />
+            <button type="submit" title="{{ _('Search') }}"
+              class="search-button">{{ _('Search') }}</button>
           </form>
         </section>
 
@@ -24,11 +27,11 @@
 
           <ul>
             {% for thread in threads %}
-              <li>
-                <a href="{{ thread.get_absolute_url() }}">
-                  {{ thread.title }}
-                </a>
-              </li>
+            <li>
+              <a href="{{ thread.get_absolute_url() }}">
+                {{ thread.title }}
+              </a>
+            </li>
             {% endfor %}
           </ul>
           <p>
@@ -55,7 +58,9 @@
         <h2 class="sumo-page-subheading">{{ _('Community Health Metrics') }}</h2>
         <a href="{{ url('community.metrics') }}">
           <div class="card is-shaded mb">
-            <img class="health-metrics" src="{{ STATIC_URL }}sumo/img/community/chart-thumbnail.png" alt="{{ _('View Community Metrics') }}" />
+            <img class="health-metrics"
+              src="{{ STATIC_URL }}sumo/img/community/chart-thumbnail.png"
+              alt="{{ _('View Community Metrics') }}" />
           </div>
           <p>{{ _('View Community Health Metrics') }}</p>
         </a>
@@ -67,15 +72,15 @@
           <div class="mzp-c-menu-list selector">
             <p class="mzp-c-menu-list-title has-icon text-body-md" data-has-dropdown>
               {% if not locale %}
-                {{ _('Filter by Locale') }}
+              {{ _('Filter by Locale') }}
               {% else %}
-                {{ settings.LANGUAGES_DICT[locale.lower()] }}
+              {{ settings.LANGUAGES_DICT[locale.lower()] }}
               {% endif %}
             </p>
             <ul class="mzp-c-menu-list-list">
               {% set base_url = url('community.home') %}
               {% if product %}
-                {% set base_url = base_url|urlparams(product=product.slug) %}
+              {% set base_url = base_url|urlparams(product=product.slug) %}
               {% endif %}
               <li class="mzp-c-menu-list-item {% if not locale %}is-selected{% endif %}">
                 <a class="has-icon" href="{{ base_url }}">
@@ -83,43 +88,43 @@
                 </a>
               </li>
               {% for l in settings.LANGUAGE_CHOICES %}
-                <li class="mzp-c-menu-list-item {% if l[0] == locale %}is-selected{% endif %}">
-                  <a href="{{ base_url|urlparams(locale=l[0]) }}">
-                    <span>{{ l[1] }}</span>
-                  </a>
-                </li>
+              <li class="mzp-c-menu-list-item {% if l[0] == locale %}is-selected{% endif %}">
+                <a href="{{ base_url|urlparams(locale=l[0]) }}">
+                  <span>{{ l[1] }}</span>
+                </a>
+              </li>
               {% endfor %}
             </ul>
           </div>
 
 
-      {# Product Filter #}
-        <div class="mzp-c-menu-list selector">
-          <p class="mzp-c-menu-list-title has-icon text-body-md" data-has-dropdown>
-            {% if not product %}
+          {# Product Filter #}
+          <div class="mzp-c-menu-list selector">
+            <p class="mzp-c-menu-list-title has-icon text-body-md" data-has-dropdown>
+              {% if not product %}
               {{ _('Filter by Product') }}
-            {% else %}
+              {% else %}
               {{ pgettext('DB: products.Product.title', product.title) }}
-            {% endif %}
-          </p>
-          <ul class="mzp-c-menu-list-list">
-            {% set base_url = url('community.home') %}
-            {% if locale %}
+              {% endif %}
+            </p>
+            <ul class="mzp-c-menu-list-list">
+              {% set base_url = url('community.home') %}
+              {% if locale %}
               {% set base_url = base_url|urlparams(locale=locale) %}
-            {% endif %}
-            <li class="mzp-c-menu-list-item {% if not product %}is-selected{% endif %}">
-              <a href="{{ base_url }}">
-                {{ _('All products') }}
-              </a>
-            </li>
-            {% for p in products %}
+              {% endif %}
+              <li class="mzp-c-menu-list-item {% if not product %}is-selected{% endif %}">
+                <a href="{{ base_url }}">
+                  {{ _('All products') }}
+                </a>
+              </li>
+              {% for p in products %}
               <li class="mzp-c-menu-list-item {% if p == product %}is-selected{% endif %}">
                 <a href="{{ base_url|urlparams(product=p.slug) }}">
                   <span>{{ pgettext('DB: products.Product.title', p.title) }}</span>
                 </a>
               </li>
-            {% endfor %}
-          </ul>
+              {% endfor %}
+            </ul>
           </div>
         </div>
 
@@ -132,17 +137,17 @@
           {% endif %}
 
           {% if top_contributors_kb %}
-            <section class="contributor-group sumo-page-section--sm">
-              <h2 class="sumo-page-subheading">{{ _('Knowledge Base') }}</h2>
-              {{ render_contributors(top_contributors_kb, 'kb', locale) }}
-            </section>
+          <section class="contributor-group sumo-page-section--sm">
+            <h2 class="sumo-page-subheading">{{ _('Knowledge Base') }}</h2>
+            {{ render_contributors(top_contributors_kb, 'kb', locale) }}
+          </section>
           {% endif %}
 
           {% if top_contributors_l10n %}
-            <section class="contributor-group sumo-page-section--sm">
-              <h2 class="sumo-page-subheading">{{ _('Localization') }}</h2>
-              {{ render_contributors(top_contributors_l10n, 'l10n', locale) }}
-            </section>
+          <section class="contributor-group sumo-page-section--sm">
+            <h2 class="sumo-page-subheading">{{ _('Localization') }}</h2>
+            {{ render_contributors(top_contributors_l10n, 'l10n', locale) }}
+          </section>
           {% endif %}
         </article>
       </section>
@@ -152,23 +157,23 @@
 {% endblock %}
 
 {% macro render_contributors(results, area, locale) -%}
-  <ul class="contributor-list {{ area }}">
-    {% for result in results %}
-      <li>
-        {% set tooltip = _('{user} - {num} contributions in last 90 days')|f(user=result['user']['display_name'], num=result['count']) %}
-        <a href="{{ url('users.profile', result['user']['id']) }}" title="{{ tooltip }}">
-          <img src="{{ result['user']['avatar'] }}" alt="{{ tooltip }}" />
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
-  <p>
-    {% set all_url = url('community.top_contributors', area=area) %}
-    {% if locale %}
-      {% set all_url = all_url|urlparams(locale=locale) %}
-    {% endif %}
-    <a href="{{ all_url }}" class="view-all">
-      {{ _('See All') }}
+<ul class="contributor-list {{ area }}">
+  {% for result in results %}
+  <li>
+    {% set tooltip = _('{user} - {num} contributions in last 90 days')|f(user=result['user']['display_name'], num=result['count']) %}
+    <a href="{{ url('users.profile', result['user']['id']) }}" title="{{ tooltip }}">
+      <img src="{{ result['user']['avatar'] }}" alt="{{ tooltip }}" />
     </a>
-  </p>
+  </li>
+  {% endfor %}
+</ul>
+<p>
+  {% set all_url = url('community.top_contributors', area=area) %}
+  {% if locale %}
+  {% set all_url = all_url|urlparams(locale=locale) %}
+  {% endif %}
+  <a href="{{ all_url }}" class="view-all">
+    {{ _('See All') }}
+  </a>
+</p>
 {%- endmacro %}

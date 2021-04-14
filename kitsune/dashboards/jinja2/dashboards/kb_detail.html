@@ -8,28 +8,28 @@
 {# TODO: Move required dashboard scripts out of wiki.js into their own #}
 
 {% block content %}
-    <article class="main dashboards dashboards-detail sumo-page-section">
+<article class="main dashboards dashboards-detail sumo-page-section">
 
-      <h1 class="sumo-page-heading">{{ readout.title }}</h1>
+  <h1 class="sumo-page-heading">{{ readout.title }}</h1>
 
-      {{ product_selector(products, product) }}
+  {{ product_selector(products, product) }}
 
-      <ul class="tag-list readout-modes" data-slug="{{ readout.slug }}">
-        {% for key, name in readout.modes %}
-          <li class="mode{% if key == readout.default_mode %} active
+  <ul class="tag-list readout-modes" data-slug="{{ readout.slug }}">
+    {% for key, name in readout.modes %}
+    <li class="mode{% if key == readout.default_mode %} active
           {% endif %}" data-url="{{ url('dashboards.wiki_rows',
                   readout.slug)|urlparams(mode=key, locale=locale, product=product.slug) }}">
-            <a href="#">{{ name }}</a>
-          </li>
-        {% endfor %}
-      </ul>
+      <a href="#">{{ name }}</a>
+    </li>
+    {% endfor %}
+  </ul>
 
-      <table class="documents" id="{{ readout.slug }}-table">
-        {{ readout.render()|safe }}
-      </table>
-    </article>
+  <table class="documents" id="{{ readout.slug }}-table">
+    {{ readout.render()|safe }}
+  </table>
+</article>
 {% endblock %}
 
 {% block side_top %}
-  {{ for_contributors_sidebar(user, settings.WIKI_DEFAULT_LANGUAGE, active='kbdashboard') }}
+{{ for_contributors_sidebar(user, settings.WIKI_DEFAULT_LANGUAGE, active='kbdashboard') }}
 {% endblock %}

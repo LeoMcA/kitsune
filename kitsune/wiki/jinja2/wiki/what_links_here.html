@@ -7,36 +7,36 @@
 {% set meta = [('robots', 'noindex, nofollow')] %}
 
 {% macro relations_list(name, title) %}
-  {% if relations[name] %}
-    <section>
-      <h2 class="sumo-card-heading">{{ title }}</h2>
-      <ul>
-        {% for doc in relations[name] %}
-          <li>
-            <a href="{{ doc.get_absolute_url() }}">
-              {{ doc.title }} ({{ doc.locale }})
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    </section>
-    {% endif %}
+{% if relations[name] %}
+<section>
+  <h2 class="sumo-card-heading">{{ title }}</h2>
+  <ul>
+    {% for doc in relations[name] %}
+    <li>
+      <a href="{{ doc.get_absolute_url() }}">
+        {{ doc.title }} ({{ doc.locale }})
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
 {% endmacro %}
 
 {% block content %}
-    <article id="what-links-here" class="sumo-page-section">
-      {% if relations %}
-        {{ relations_list('link', _('Documents that link to "{title}"')|fe(title=document.title)) }}
-        {{ relations_list('include', _('Documents that include "{title}"')|fe(title=document.title)) }}
-        {{ relations_list('template', _('Documents that use "{title}" as a template')|fe(title=document.title)) }}
-      {% else %}
-        <p>
-          {{ _('No other documents link to {title}.')|fe(title=document.title) }}
-        </p>
-      {% endif %}
-    </article>
+<article id="what-links-here" class="sumo-page-section">
+  {% if relations %}
+  {{ relations_list('link', _('Documents that link to "{title}"')|fe(title=document.title)) }}
+  {{ relations_list('include', _('Documents that include "{title}"')|fe(title=document.title)) }}
+  {{ relations_list('template', _('Documents that use "{title}" as a template')|fe(title=document.title)) }}
+  {% else %}
+  <p>
+    {{ _('No other documents link to {title}.')|fe(title=document.title) }}
+  </p>
+  {% endif %}
+</article>
 {% endblock %}
 
 {% block side_top %}
-  {{ document_tools(document, document.parent, user, 'links_here', settings) }}
+{{ document_tools(document, document.parent, user, 'links_here', settings) }}
 {% endblock %}

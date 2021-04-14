@@ -1,23 +1,27 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}{% if subject %}{{ subject }}{% endif %}{% endblock %}</title>
   <style type="text/css">
     /* Client-specific Styles */
     #outlook a {
-      padding:0;
-    } /* Force Outlook to provide a "view in browser" menu link. */
+      padding: 0;
+    }
 
-    body{
+    /* Force Outlook to provide a "view in browser" menu link. */
+
+    body {
       color: #333;
       font-family: Helvetica, Arial, sans-serif;
-      margin:0;
-      padding:0;
-      -webkit-text-size-adjust:100%;
-      -ms-text-size-adjust:100%;
-      width:100% !important;
+      margin: 0;
+      padding: 0;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      width: 100% !important;
     }
 
     /*
@@ -25,8 +29,10 @@
       sizes, while not breaking desktop design.
     */
     .ExternalClass {
-      width:100%;
-    } /* Force Hotmail to display emails at full width */
+      width: 100%;
+    }
+
+    /* Force Hotmail to display emails at full width */
 
     .ExternalClass,
     .ExternalClass p,
@@ -35,15 +41,18 @@
     .ExternalClass td,
     .ExternalClass div {
       line-height: 100%;
-    } /* Force Hotmail to display normal line spacing. */
+    }
+
+    /* Force Hotmail to display normal line spacing. */
 
     #background-table {
       background: #eaeff2;
       line-height: 100% !important;
-      margin:0;
-      padding:0;
-      width:100% !important;
+      margin: 0;
+      padding: 0;
+      width: 100% !important;
     }
+
     /* End reset */
 
     /* All the following styles should be brought inline during preflight */
@@ -60,16 +69,16 @@
     */
     img {
       -ms-interpolation-mode: bicubic;
-      outline:none;
-      text-decoration:none;
+      outline: none;
+      text-decoration: none;
     }
 
     a img {
-      border:none;
+      border: none;
     }
 
     .image_fix {
-      display:block;
+      display: block;
     }
 
     /*
@@ -135,9 +144,9 @@
     }
 
     table {
-      border-collapse:collapse;
-      mso-table-lspace:0pt;
-      mso-table-rspace:0pt;
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
     }
 
     a {
@@ -218,43 +227,56 @@
       font-size: 12px;
     }
 
-    {% block styles %}{% endblock %}
+      {
+      % block styles %
+    }
+
+      {
+      % endblock %
+    }
+
   </style>
 </head>
+
 <body>
-<table cellpadding="0" cellspacing="0" border="0" id="background-table">
-  <tr>
-    <td>
-      <table cellpadding="0" cellspacing="0" border="0" align="center" id="main">
-        <thead>
-          <tr>
-            <th>
-              <img src="{{ STATIC_URL }}sumo/email/img/mozilla-support.png" alt="{{ _('Mozilla Support') }}">
-              {% block header %}{% endblock %}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{% block content %}{% endblock %}</td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>
-              {% block prefooter %}{% endblock %}
-              {% block footer %}
-                <a class="email-prefs" href="{{ url('users.edit_settings') }}">{{ _('Change your email preferences') }}</a>
+  <table cellpadding="0" cellspacing="0" border="0" id="background-table">
+    <tr>
+      <td>
+        <table cellpadding="0" cellspacing="0" border="0" align="center" id="main">
+          <thead>
+            <tr>
+              <th>
+                <img src="{{ STATIC_URL }}sumo/email/img/mozilla-support.png"
+                  alt="{{ _('Mozilla Support') }}">
+                {% block header %}{% endblock %}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{% block content %}{% endblock %}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>
+                {% block prefooter %}{% endblock %}
+                {% block footer %}
+                <a class="email-prefs"
+                  href="{{ url('users.edit_settings') }}">{{ _('Change your email preferences') }}</a>
                 {% if watch %}
-                  <div class="watch-link"><a href="{{ watch.unsubscribe_url() }}">{{ _('Unsubscribe from these emails') }}</a></div>
+                <div class="watch-link"><a
+                    href="{{ watch.unsubscribe_url() }}">{{ _('Unsubscribe from these emails') }}</a>
+                </div>
                 {% endif %}
-              {% endblock %}
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </td>
-  </tr>
-</table>
+                {% endblock %}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
+
 </html>

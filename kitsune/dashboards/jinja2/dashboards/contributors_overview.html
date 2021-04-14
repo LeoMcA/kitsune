@@ -24,11 +24,12 @@
 <nav class="tabs">
   <ul data-slug="kb-overview" class="tabs--list readout-modes">
     {% for key, name in overview_modes %}
-      <li class="tabs--item mode {% if key == 2 %}active{% endif %}" data-url="{{ url('dashboards.contributors_overview_rows')|urlparams(max=10, mode=key, locale=locale, product=product.slug) }}">
-        <a class="tabs--link {% if key == 2 %}is-active{% endif %}" href="#">
-          <span>{{ name }}</span>
-        </a>
-      </li>
+    <li class="tabs--item mode {% if key == 2 %}active{% endif %}"
+      data-url="{{ url('dashboards.contributors_overview_rows')|urlparams(max=10, mode=key, locale=locale, product=product.slug) }}">
+      <a class="tabs--link {% if key == 2 %}is-active{% endif %}" href="#">
+        <span>{{ name }}</span>
+      </a>
+    </li>
     {% endfor %}
   </ul>
 </nav>

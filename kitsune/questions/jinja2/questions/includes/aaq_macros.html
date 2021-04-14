@@ -2,102 +2,93 @@
 {% from 'includes/common_macros.html' import featured_articles, scam_banner %}
 
 {% macro select_product(products) -%}
-  <h1 class="sumo-page-heading">{{ _('Ask the Community') }}</h1>
-  <h2 class="sumo-page-subheading">{{ _('Which product do you need help with?') }}</h2>
-  <div class="sumo-page-section--inner">
-    <div id="product-picker" class="sumo-card-grid stack-on-mobile" style="--cg-count: {{ products|length }};">
-      <div class="scroll-wrap">
-        {% for key, product in products.items() %}
-        <div class="card card--product zoom-on-hover">
-          {% if key == 'other' %}
-          <img src="{{ static('sumo/img/mozilla-icon.png') }}"
-              alt="{{ _(product.name) }}"
-              class="card--icon">
-          {% else %}
-          <img src="{{ image_for_product(product.product) }}"
-              alt="{{ pgettext('DB: products.Product.title', product.title) }}"
-              class="card--icon">
-          {% endif %}
+<h1 class="sumo-page-heading">{{ _('Ask the Community') }}</h1>
+<h2 class="sumo-page-subheading">{{ _('Which product do you need help with?') }}</h2>
+<div class="sumo-page-section--inner">
+  <div id="product-picker" class="sumo-card-grid stack-on-mobile"
+    style="--cg-count: {{ products|length }};">
+    <div class="scroll-wrap">
+      {% for key, product in products.items() %}
+      <div class="card card--product zoom-on-hover">
+        {% if key == 'other' %}
+        <img src="{{ static('sumo/img/mozilla-icon.png') }}" alt="{{ _(product.name) }}"
+          class="card--icon">
+        {% else %}
+        <img src="{{ image_for_product(product.product) }}"
+          alt="{{ pgettext('DB: products.Product.title', product.title) }}" class="card--icon">
+        {% endif %}
 
-          <div class="card--details">
-            <h3 class="card--title">
-              <a class="expand-this-link title"
-                href="{{ url('questions.aaq_step2', product_key=key) }}"
-                data-event-category="link click"
-                data-event-action="product"
-                data-event-label="{{ product.name }}">
-                {{ product.name }}
-              </a>
-            </h3>
-            <p class="card--desc">{{ product.subtitle }}</p>
-          </div>
+        <div class="card--details">
+          <h3 class="card--title">
+            <a class="expand-this-link title"
+              href="{{ url('questions.aaq_step2', product_key=key) }}"
+              data-event-category="link click" data-event-action="product"
+              data-event-label="{{ product.name }}">
+              {{ product.name }}
+            </a>
+          </h3>
+          <p class="card--desc">{{ product.subtitle }}</p>
         </div>
-        {% endfor %}
-        <div class="card card--centered-button">
-          <a class="sumo-button primary-button button-lg" href="{{ url('questions.home') }}">{{ _('Browse All Product Forums')}}</a>
-        </div>
+      </div>
+      {% endfor %}
+      <div class="card card--centered-button">
+        <a class="sumo-button primary-button button-lg"
+          href="{{ url('questions.home') }}">{{ _('Browse All Product Forums')}}</a>
       </div>
     </div>
   </div>
+</div>
 {%- endmacro %}
 
 {% macro progress_bar(step, product_key=None) %}
-  <ul class="progress">
-    <li class="progress--item {% if step > 1 %}is-complete{% elif step == 1 %}is-current{% endif %}">
-      <a class="progress--link"
+<ul class="progress">
+  <li class="progress--item {% if step > 1 %}is-complete{% elif step == 1 %}is-current{% endif %}">
+    <a class="progress--link" {% if step > 1 and step < 4 %}
+      href="{{ url('questions.aaq_step1') }}?q=change_product" {% else %} href="#" disabled
+      {% endif %}>
+      <span class="progress--link-inner">
+        <span class="progress--dot"></span>
         {% if step > 1 and step < 4 %}
-          href="{{ url('questions.aaq_step1') }}?q=change_product"
+        <span class="progress--label">{{ _('Change Product') }}</span>
         {% else %}
-          href="#" disabled
-        {% endif %}>
-        <span class="progress--link-inner">
-          <span class="progress--dot"></span>
-          {% if step > 1 and step < 4 %}
-            <span class="progress--label">{{ _('Change Product') }}</span>
-          {% else %}
-            <span class="progress--label">{{ _('Select Product') }}</span>
-          {% endif %}
-        </span>
-      </a>
-    </li>
-    <li class="progress--item {% if step > 2 %}is-complete{% elif step == 2 %}is-current{% endif %}">
-      <a class="progress--link"
-        {% if step == 3 and product_key %}
-          href="{{ url('questions.aaq_step2', product_key) }}"
-        {% else %}
-          href="#" disabled
-        {% endif %}>
-        <span class="progress--link-inner">
-          <span class="progress--dot"></span>
-          <span class="progress--label">{{ _('Explore Solutions') }}</span>
-        </span>
-      </a>
-    </li>
-    <li class="progress--item {% if step > 3 %}is-complete{% elif step == 3 %}is-current{% endif %}">
-      <a class="progress--link" href="#" disabled>
-        <span class="progress--link-inner">
-          <span class="progress--dot"></span>
-          <span class="progress--label">{{ _('Ask Question') }}</span>
-        </span>
-      </a>
-    </li>
-  </ul>
+        <span class="progress--label">{{ _('Select Product') }}</span>
+        {% endif %}
+      </span>
+    </a>
+  </li>
+  <li class="progress--item {% if step > 2 %}is-complete{% elif step == 2 %}is-current{% endif %}">
+    <a class="progress--link" {% if step == 3 and product_key %}
+      href="{{ url('questions.aaq_step2', product_key) }}" {% else %} href="#" disabled
+      {% endif %}>
+      <span class="progress--link-inner">
+        <span class="progress--dot"></span>
+        <span class="progress--label">{{ _('Explore Solutions') }}</span>
+      </span>
+    </a>
+  </li>
+  <li class="progress--item {% if step > 3 %}is-complete{% elif step == 3 %}is-current{% endif %}">
+    <a class="progress--link" href="#" disabled>
+      <span class="progress--link-inner">
+        <span class="progress--dot"></span>
+        <span class="progress--label">{{ _('Ask Question') }}</span>
+      </span>
+    </a>
+  </li>
+</ul>
 {%- endmacro %}
 
 {% macro aaq_widget(key, user, location="aaq") %}
-  <div class="aaq-widget card elevation-01 text-center radius-md">
-    <h2 class="card--title has-bottom-margin">{{ _('Ask the Community') }}</h2>
-    {% if user.is_authenticated %}
-      <p>{{ _('Continue to post your question and get help.') }}</p>
-    {% else %}
-      <p>{{ _('Sign in/up to post your question and get help.') }}</p>
-    {% endif %}
-    <a class="sumo-button primary-button feature-box"
-       href="{{ url('questions.aaq_step3', product_key=key) }}"
-       data-event-category="link click"
-       data-event-action="{{ location }}"
-       data-event-label="aaq widget">{{ _('Ask Now') }}</a>
-  </div>
+<div class="aaq-widget card elevation-01 text-center radius-md">
+  <h2 class="card--title has-bottom-margin">{{ _('Ask the Community') }}</h2>
+  {% if user.is_authenticated %}
+  <p>{{ _('Continue to post your question and get help.') }}</p>
+  {% else %}
+  <p>{{ _('Sign in/up to post your question and get help.') }}</p>
+  {% endif %}
+  <a class="sumo-button primary-button feature-box"
+    href="{{ url('questions.aaq_step3', product_key=key) }}" data-event-category="link click"
+    data-event-action="{{ location }}" data-event-label="aaq widget">{{ _('Ask Now') }}</a>
+</div>
 {%- endmacro %}
 
 {% macro explore_solutions(product, search_box, featured, topics, user) -%}
@@ -111,14 +102,15 @@
 
     <div class="sumo-l-two-col sidebar-on-right align-center cols-on-medium">
       <div class="sumo-l-two-col--main home-search-section--content">
-        <img class="page-heading--logo" src="{{ image_for_product(product.product) }}" alt="{{ product.name }} logo">
+        <img class="page-heading--logo" src="{{ image_for_product(product.product) }}"
+          alt="{{ product.name }} logo">
         <h1 class="sumo-page-heading ">
           <span class="product-title-text">{{ product.name }} {{ _('Solutions') }}</span>
         </h1>
         {{ search_box(settings, id='question-search-masthead', params=search_params) }}
 
         <p class="page-heading--intro-text">
-            {{ _('Enter your question or keywords to find solutions in the knowledge base or forums') }}
+          {{ _('Enter your question or keywords to find solutions in the knowledge base or forums') }}
         </p>
       </div>
       <div class="sumo-l-two-col--sidebar">
@@ -129,44 +121,45 @@
 </section>
 <div class="wrap" id="main-content">
   {% if featured %}
-    <section class="mzp-l-content sumo-page-section--inner">
-      <div class="text-center-to-left-on-large">
-        <h2 class="sumo-page-subheading">{{ _('Featured Articles') }}</h2>
-      </div>
-      {{ featured_articles(articles=featured, new_tab=True) }}
-    </section>
+  <section class="mzp-l-content sumo-page-section--inner">
+    <div class="text-center-to-left-on-large">
+      <h2 class="sumo-page-subheading">{{ _('Featured Articles') }}</h2>
+    </div>
+    {{ featured_articles(articles=featured, new_tab=True) }}
+  </section>
   {% endif %}
   <section class="sumo-page-section--inner hide-when-search-is-active highlight-box">
-      <div class="mzp-l-content">
-        <div class="text-center-to-left-on-large aaq-popular-topics">
-          <h2 class="sumo-page-subheading">{{ _('Popular Topics') }}</h2>
-        </div>
-        {{ help_topics(topics, product_slug=product.product, new_tab=True) }}
+    <div class="mzp-l-content">
+      <div class="text-center-to-left-on-large aaq-popular-topics">
+        <h2 class="sumo-page-subheading">{{ _('Popular Topics') }}</h2>
       </div>
+      {{ help_topics(topics, product_slug=product.product, new_tab=True) }}
+    </div>
   </section>
 </div>
 {%- endmacro %}
 
 {% macro troubleshooting_instructions(field) %}
-  <div>
-    <div id="api-section">
-      <div id="troubleshooting-button" class="sumo-button-wrap">
-        <button class="sumo-button" id="share-data" type="button">
-          {{ _('Share Data') }}
-        </button>
-      </div>
-      <p id="troubleshooting-manual" class="hide-until-expanded">
-        {% trans %}
-          We can't automatically get your browser's troubleshooting data, please
-          <a href="https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox">try these manual steps</a>.
-        {% endtrans %}
-      </p>
-      <div id="troubleshooting-field" class="hide-until-expanded field full-width">
-        {{ field }}
-      </div>
-      <p>
-        {{ _('This information gives details about the internal workings of your browser that will help in answering your question.') }}
-      </p>
+<div>
+  <div id="api-section">
+    <div id="troubleshooting-button" class="sumo-button-wrap">
+      <button class="sumo-button" id="share-data" type="button">
+        {{ _('Share Data') }}
+      </button>
     </div>
+    <p id="troubleshooting-manual" class="hide-until-expanded">
+      {% trans %}
+      We can't automatically get your browser's troubleshooting data, please
+      <a href="https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox">try
+        these manual steps</a>.
+      {% endtrans %}
+    </p>
+    <div id="troubleshooting-field" class="hide-until-expanded field full-width">
+      {{ field }}
+    </div>
+    <p>
+      {{ _('This information gives details about the internal workings of your browser that will help in answering your question.') }}
+    </p>
   </div>
+</div>
 {% endmacro %}

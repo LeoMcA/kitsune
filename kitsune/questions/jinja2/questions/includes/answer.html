@@ -3,12 +3,14 @@
 {% from "wiki/includes/flag_form.html" import flag_form with context %}
 {% from "questions/includes/macros.html" import mark_spam_form, unmark_spam_form with context %}
 
-<div class="answer {% if answer.is_spam %}marked-as-spam{% endif %}" {% if answer.id %}id="answer-{{ answer.id }}"{% endif %}>
+<div class="answer {% if answer.is_spam %}marked-as-spam{% endif %}"
+  {% if answer.id %}id="answer-{{ answer.id }}" {% endif %}>
   <section class="avatar-row">
     <div class="avatar-details user-meta">
       <div class="avatar">
         <a href="{{ profile_url(answer.creator) }}">
-          <img src="{{ profile_avatar(answer.creator) }}" height="48" width="48" alt="{{ display_name(answer.creator) }}"/>
+          <img src="{{ profile_avatar(answer.creator) }}" height="48" width="48"
+            alt="{{ display_name(answer.creator) }}" />
         </a>
       </div>
       <div class="user">
@@ -16,7 +18,8 @@
           <a class="author-name" href="{{ profile_url(answer.creator) }}">
             <span class="display-name">{{ display_name(answer.creator) }}</span>
             {{ titles(answer.creator) }}
-            {% if answer.id and answer.creator == question.creator %}<span class="user-title">{{_('Question owner')}}</span>{% endif %}
+            {% if answer.id and answer.creator == question.creator %}<span
+              class="user-title">{{_('Question owner')}}</span>{% endif %}
           </a>
           {# {% if answer.id and question.creator != answer.creator %}
             <span class="solutions">{{ _('{num} solutions')|f(num=answer.creator_num_solutions) }}</span>
@@ -26,7 +29,8 @@
         {% if answer.id %}
         <span class="asked-on">
           <a href="{{answer.get_absolute_url()}}">
-          <time itemprop="dateCreated" datetime="{{ question.created }}">{{ datetimeformat(answer.created) }}</time>
+            <time itemprop="dateCreated"
+              datetime="{{ question.created }}">{{ datetimeformat(answer.created) }}</time>
           </a>
         </span>
         {% endif %}
@@ -37,32 +41,35 @@
       <span class="icon-button" data-has-dropdown>more options</span>
       <ul class="mzp-c-menu-list-list">
         {% if user.is_authenticated and answer.allows_flag(user, question) %}
-          <li class="mzp-c-menu-list-item">
-            {{ flag_form(url('questions.answer_flag', question.id, answer.id)) }}
-          </li>
+        <li class="mzp-c-menu-list-item">
+          {{ flag_form(url('questions.answer_flag', question.id, answer.id)) }}
+        </li>
         {% endif %}
         <li class="mzp-c-menu-list-item">
-          <a class="reply quoted-reply" href="#question-reply" data-content-id="answer-{{ answer.id }}">{{ _('Quote') }}</a>
+          <a class="reply quoted-reply" href="#question-reply"
+            data-content-id="answer-{{ answer.id }}">{{ _('Quote') }}</a>
         </li>
 
         {% if user.has_perm('flagit.can_moderate') %}
         <li class="mzp-c-menu-list-item">
           {% if answer.is_spam %}
-            {{ unmark_spam_form(answer_id=answer.id) }}
+          {{ unmark_spam_form(answer_id=answer.id) }}
           {% else %}
-            {{ mark_spam_form(answer_id=answer.id) }}
+          {{ mark_spam_form(answer_id=answer.id) }}
           {% endif %}
         </li>
         {% endif %}
         {% if answer.id and answer.allows_edit(user, question) %}
-          <li class="mzp-c-menu-list-item edit">
-            <a href="{{ url('questions.edit_answer', question.id, answer.id) }}">{{ _('Edit this post') }}</a>
-          </li>
+        <li class="mzp-c-menu-list-item edit">
+          <a
+            href="{{ url('questions.edit_answer', question.id, answer.id) }}">{{ _('Edit this post') }}</a>
+        </li>
         {% endif %}
         {% if answer.id and answer.allows_delete(user) %}
-          <li class="mzp-c-menu-list-item delete">
-            <a href="{{ url('questions.delete_answer', question.id, answer.id) }}">{{ _('Delete this post') }}</a>
-          </li>
+        <li class="mzp-c-menu-list-item delete">
+          <a
+            href="{{ url('questions.delete_answer', question.id, answer.id) }}">{{ _('Delete this post') }}</a>
+        </li>
         {% endif %}
       </ul>
     </div>
@@ -72,25 +79,27 @@
 
   <div class="main-content">
     {% if answer.id and question.solution == answer %}
-      <h3 class="is-solution"{% if solver %} title="{{ _('Solution chosen by {user}')|f(user=display_name(solver)) }}"{% endif %}>
-        {{_('Chosen Solution')}}
-        <svg class="is-solution--icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path stroke="currentColor" stroke-width="2" d="M20 6L9 17l-5-5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </h3>
+    <h3 class="is-solution" {% if solver %}
+      title="{{ _('Solution chosen by {user}')|f(user=display_name(solver)) }}" {% endif %}>
+      {{_('Chosen Solution')}}
+      <svg class="is-solution--icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-width="2" d="M20 6L9 17l-5-5" fill="none"
+          fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </h3>
     {% elif answer.id and answer in helpful_replies %}
     {# Note: this is only here as a flag for tests #}
-      <span class="is-helpful"></span>
+    <span class="is-helpful"></span>
     {% elif answer.is_spam %}
-      <h3 class="is-spam">{{ _('Marked as spam') }}</h3>
+    <h3 class="is-spam">{{ _('Marked as spam') }}</h3>
     {% endif %}
 
     <div class="content">
       {% if is_preview %}
-        {# Don't use cached content_parsed #}
-        {{ answer.content|wiki_to_html(locale=request.LANGUAGE_CODE) }}
+      {# Don't use cached content_parsed #}
+      {{ answer.content|wiki_to_html(locale=request.LANGUAGE_CODE) }}
       {% else %}
-        {{ answer.content_parsed|safe }}
+      {{ answer.content_parsed|safe }}
       {% endif %}
     </div>
 
@@ -98,73 +107,84 @@
 
     <div class="ans-attachments attachments-list">
       {% for image in answer.get_images() %}
-        {{ attachment(image, user, False) }}
+      {{ attachment(image, user, False) }}
       {% endfor %}
     </div>
     {% if answer.updated_by %}
-      <p class="edited text-body-sm"><em>
+    <p class="edited text-body-sm"><em>
         {{ _('Modified {datetime} by {name}')|fe(name=display_name(answer.updated_by), datetime=datetimeformat(answer.updated, format='longdatetime')) }}
       </em></p>
     {% endif %}
   </div>
   {% if answer.id and question.editable %}
-    <div class="answer-tools align-end">
-      {% if user != answer.creator %}
-      <div class="document-vote is-forum-answer text-right">
-        <form class="document-vote--form helpful" action="{{ url('questions.answer_vote', question_id=question.id, answer_id=answer.id) }}" method="post">
-          <h4 class="document-vote--heading">{{ _('Helpful?') }}</h4>
-          <div class="document-vote--buttons">
-            <button type="submit" class="btn helpful-button" name="helpful" {% if answer.has_voted(request) %}disabled{% endif %}>
-              <span class="hidden-text">Yes</span>
-              {% if answer.num_votes != 0 %}
-              <strong class="helpful-count">{{ answer.num_helpful_votes }}</strong>
-              {% endif %}
-              <span class="emoji">👍</span>
-            </button>
-            <button type="submit" class="btn helpful-button" name="not-helpful" value="{{ _('No') }}" {% if answer.has_voted(request) %}disabled{% endif %}>
-              {% if answer.num_votes != 0 %}
-              <strong class="helpful-count">{{ answer.num_unhelpful_votes }}</strong>
-              {% endif %}
-              <span class="hidden-text">No</span>
-              <span class="emoji">👎</span>
-            </button>
-          </div>
+  <div class="answer-tools align-end">
+    {% if user != answer.creator %}
+    <div class="document-vote is-forum-answer text-right">
+      <form class="document-vote--form helpful"
+        action="{{ url('questions.answer_vote', question_id=question.id, answer_id=answer.id) }}"
+        method="post">
+        <h4 class="document-vote--heading">{{ _('Helpful?') }}</h4>
+        <div class="document-vote--buttons">
+          <button type="submit" class="btn helpful-button" name="helpful"
+            {% if answer.has_voted(request) %}disabled{% endif %}>
+            <span class="hidden-text">Yes</span>
+            {% if answer.num_votes != 0 %}
+            <strong class="helpful-count">{{ answer.num_helpful_votes }}</strong>
+            {% endif %}
+            <span class="emoji">👍</span>
+          </button>
+          <button type="submit" class="btn helpful-button" name="not-helpful" value="{{ _('No') }}"
+            {% if answer.has_voted(request) %}disabled{% endif %}>
+            {% if answer.num_votes != 0 %}
+            <strong class="helpful-count">{{ answer.num_unhelpful_votes }}</strong>
+            {% endif %}
+            <span class="hidden-text">No</span>
+            <span class="emoji">👎</span>
+          </button>
+        </div>
 
-        </form>
-      </div>
-      {% endif %}
+      </form>
     </div>
+    {% endif %}
+  </div>
   {% endif %}
 </div>
 
 
 
-  {# answer.id is None when previewing #}
-  {% if answer.id and not question.solution and question.allows_solve(user) %}
-  <aside class="answer--tools">
-    <div class="answer--tools-form">
-      <form class="solution" action="{{ url('questions.solve', question_id=question.id, answer_id=answer.id) }}" method="post">
-        {% csrf_token %}
-        {% if user == question.creator %}
-          <p class="text-body-sm title">{{ _('Did this reply solve your problem?') }}</p>
-          <input type="submit" class="sumo-button secondary-button button-sm" name="solution" value="{{ _('Solved the problem') }}" />
-        {% else %}
-          <p class="text-body-sm title">{{ _('Does this reply solve the problem?') }}</p>
-          <input type="submit" class="sumo-button secondary-button button-sm" name="solution" value="{{ _('Solves the problem') }}" />
-        {% endif %}
-      </form>
-    </div>
-  </aside>
-  {% endif %}
+{# answer.id is None when previewing #}
+{% if answer.id and not question.solution and question.allows_solve(user) %}
+<aside class="answer--tools">
+  <div class="answer--tools-form">
+    <form class="solution"
+      action="{{ url('questions.solve', question_id=question.id, answer_id=answer.id) }}"
+      method="post">
+      {% csrf_token %}
+      {% if user == question.creator %}
+      <p class="text-body-sm title">{{ _('Did this reply solve your problem?') }}</p>
+      <input type="submit" class="sumo-button secondary-button button-sm" name="solution"
+        value="{{ _('Solved the problem') }}" />
+      {% else %}
+      <p class="text-body-sm title">{{ _('Does this reply solve the problem?') }}</p>
+      <input type="submit" class="sumo-button secondary-button button-sm" name="solution"
+        value="{{ _('Solves the problem') }}" />
+      {% endif %}
+    </form>
+  </div>
+</aside>
+{% endif %}
 
-  {% if answer.id and question.solution == answer and question.allows_unsolve(user) %}
-  <aside class="answer--tools">
-    <div class="answer--tools-form">
-      <p class="text-body-sm title">{{ _('Solution chosen') }}</p>
-      <form class="unsolve" action="{{ url('questions.unsolve', question_id=question.id, answer_id=answer.id) }}" method="post">
-        {% csrf_token %}
-        <input type="submit" name="unsolve" class="sumo-button secondary-button button-sm" value="{{ _('Undo') }}" />
-      </form>
-    </div>
-  </aside>
-  {% endif %}
+{% if answer.id and question.solution == answer and question.allows_unsolve(user) %}
+<aside class="answer--tools">
+  <div class="answer--tools-form">
+    <p class="text-body-sm title">{{ _('Solution chosen') }}</p>
+    <form class="unsolve"
+      action="{{ url('questions.unsolve', question_id=question.id, answer_id=answer.id) }}"
+      method="post">
+      {% csrf_token %}
+      <input type="submit" name="unsolve" class="sumo-button secondary-button button-sm"
+        value="{{ _('Undo') }}" />
+    </form>
+  </div>
+</aside>
+{% endif %}

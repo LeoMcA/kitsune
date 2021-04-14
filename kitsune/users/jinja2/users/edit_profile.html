@@ -5,16 +5,16 @@
 {% set classes = 'profile' %}
 {% set active = 'edit-profile' %}
 {% if not user_form.errors %}
- {% set crumbs = [(profile_url(user=profile.user), profile.user.username), (None, title)] %}
+{% set crumbs = [(profile_url(user=profile.user), profile.user.username), (None, title)] %}
 {% endif %}
 
 {% block above_main %}
 {% if fxa_messages %}
-  {% for message in fxa_messages %}
-    {% if message == 'fxa_notification_updated' %}
-      {{ notification_fxa_updated(STATIC_URL) }}
-    {% endif %}
-  {% endfor %}
+{% for message in fxa_messages %}
+{% if message == 'fxa_notification_updated' %}
+{{ notification_fxa_updated(STATIC_URL) }}
+{% endif %}
+{% endfor %}
 {% endif %}
 {% endblock %}
 
@@ -24,28 +24,29 @@
 {% block content %}
 <article id="edit-profile">
   {% if profile and profile.is_fxa_migrated and request.user == profile.user %}
-    <h1 class="sumo-page-heading">{{ _('Your Account') }}</h1>
-    <p class="mb-0"><strong>{{ user.email }}</strong></p>
-    <p>
-      {% trans a_open='<a href="https://support.mozilla.org/en-US/kb/change-primary-email-address-firefox-accounts">'|safe, a_close='</a>'|safe %}
-        To change your email or avatar, visit the Firefox Accounts page, {{ a_open }} learn more. {{ a_close }}
-      {% endtrans %}
-    </p>
+  <h1 class="sumo-page-heading">{{ _('Your Account') }}</h1>
+  <p class="mb-0"><strong>{{ user.email }}</strong></p>
+  <p>
+    {% trans a_open='<a href="https://support.mozilla.org/en-US/kb/change-primary-email-address-firefox-accounts">'|safe, a_close='</a>'|safe %}
+    To change your email or avatar, visit the Firefox Accounts page, {{ a_open }} learn more.
+    {{ a_close }}
+    {% endtrans %}
+  </p>
 
-    <div>
-      <section class="avatar-group">
-        <figure class="avatar-group--figure">
-          <img class="avatar" src="{{ profile_avatar(profile.user) }}" alt="">
-        </figure>
-      </section>
-    </div>
+  <div>
+    <section class="avatar-group">
+      <figure class="avatar-group--figure">
+        <img class="avatar" src="{{ profile_avatar(profile.user) }}" alt="">
+      </figure>
+    </section>
+  </div>
 
-    <div class="sumo-button-wrap align-end">
-      <a href="https://accounts.firefox.com/settings" target="_blank"
-        class="sumo-button primary-button button-lg">{{ _('Manage Firefox Account') }}</a>
-    </div>
+  <div class="sumo-button-wrap align-end">
+    <a href="https://accounts.firefox.com/settings" target="_blank"
+      class="sumo-button primary-button button-lg">{{ _('Manage Firefox Account') }}</a>
+  </div>
 
-    <hr class="section-break" />
+  <hr class="section-break" />
   {% endif %}
 
   <h2 class="sumo-callout-heading">{{ title }}</h2>
@@ -62,7 +63,7 @@
     {{ field(profile_form.name) }}
     {{ field(profile_form.bio) }}
     {% if profile_form.public_email %}
-      {{ checkbox(profile_form.public_email) }}
+    {{ checkbox(profile_form.public_email) }}
     {% endif %}
     {{ field(profile_form.website) }}
     {{ field(profile_form.twitter) }}
@@ -76,37 +77,40 @@
     {{ field(profile_form.involved_from) }}
 
     <div class="sumo-button-wrap reverse-on-desktop">
-      <button class="sumo-button primary-button" type="submit">{{ _('Update My Profile') }}</button>
+      <button class="sumo-button primary-button"
+        type="submit">{{ _('Update My Profile') }}</button>
       <button class="sumo-button secondary-button push-right" type="reset">Cancel</button>
     </div>
   </form>
   {% if request.user == profile.user %}
-    <p class="delete-account-link">
-      <a href="javascript:;" data-sumo-modal="delete-profile"
-        class="warning-link mt-0">{{ _('Close account and delete all profile information') }}</a>
-    </p>
+  <p class="delete-account-link">
+    <a href="javascript:;" data-sumo-modal="delete-profile"
+      class="warning-link mt-0">{{ _('Close account and delete all profile information') }}</a>
+  </p>
   {% endif %}
 
   {% if request.user == profile.user %}
-    <div class="mzp-u-modal-content kbox" title="{{ _('Are you sure') }}" id="delete-profile">
-      <form method="post" action="{{ url('users.close_account') }}">
-        {% csrf_token %}
-        <p>
-          {{ _('Deleting your account will prevent you from answering or posting questions in Mozilla Support. This action will clear your profile and cannot be restored again.') }}
-        </p>
-        <p>
-          {{ _('Please type in your username to confirm') }}
-        </p>
-        <div class="field">
-          <input id="delete-profile-username-input" name="entered_username" type="text">
-          <input id="delete-profile-username" name="account_username" type="hidden" value="{{ profile.user.username }}">
-        </div>
-        <p>
-          <button type="submit" id="delete-profile-button" class="sumo-button secondary-button button-lg warning-button"
-            disabled>{{ _('Delete My Account') }}</button>
-        </p>
-      </form>
-    </div>
+  <div class="mzp-u-modal-content kbox" title="{{ _('Are you sure') }}" id="delete-profile">
+    <form method="post" action="{{ url('users.close_account') }}">
+      {% csrf_token %}
+      <p>
+        {{ _('Deleting your account will prevent you from answering or posting questions in Mozilla Support. This action will clear your profile and cannot be restored again.') }}
+      </p>
+      <p>
+        {{ _('Please type in your username to confirm') }}
+      </p>
+      <div class="field">
+        <input id="delete-profile-username-input" name="entered_username" type="text">
+        <input id="delete-profile-username" name="account_username" type="hidden"
+          value="{{ profile.user.username }}">
+      </div>
+      <p>
+        <button type="submit" id="delete-profile-button"
+          class="sumo-button secondary-button button-lg warning-button"
+          disabled>{{ _('Delete My Account') }}</button>
+      </p>
+    </form>
+  </div>
   {% endif %}
 
 </article>

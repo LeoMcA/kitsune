@@ -9,31 +9,31 @@
 {# TODO: Move required dashboard scripts out of wiki.js into their own #}
 
 {% block content %}
-    <article id="localize" class="dashboards sumo-page-section">
+<article id="localize" class="dashboards sumo-page-section">
 
-      {{ product_choice_list(products, product, url('dashboards.contributors')) }}
+  {{ product_choice_list(products, product, url('dashboards.contributors')) }}
 
-      <h1 class="sumo-page-heading">{{ title }}</h1>
+  <h1 class="sumo-page-heading">{{ title }}</h1>
 
-      <div class="table-filters">
-      {{ category_filter() }}
+  <div class="table-filters">
+    {{ category_filter() }}
 
-      {% if default_locale_name != request_locale_name %}
-        <div class="choice-list">
-          <label>{{ _('Show information for:') }}</label>
-          <ul class="mzp-u-list-styled">
-            <li>
-              {{ default_locale_name }}
-            </li>
-            <li>
-              <a href="{{ url('dashboards.localization') }}">{{ request_locale_name }}</a>
-            </li>
-          </ul>
-        </div>
-      {% endif %}
+    {% if default_locale_name != request_locale_name %}
+    <div class="choice-list">
+      <label>{{ _('Show information for:') }}</label>
+      <ul class="mzp-u-list-styled">
+        <li>
+          {{ default_locale_name }}
+        </li>
+        <li>
+          <a href="{{ url('dashboards.localization') }}">{{ request_locale_name }}</a>
+        </li>
+      </ul>
+    </div>
+    {% endif %}
 
-      {% if not user.is_anonymous %}
-        {{ print_subscription_menu(default_locale_name,
+    {% if not user.is_anonymous %}
+    {{ print_subscription_menu(default_locale_name,
                                    request_locale_name,
                                    on_default_locale,
                                    is_watching_default_locale,
@@ -42,35 +42,37 @@
                                    is_watching_other_approved,
                                    settings.WIKI_DEFAULT_LANGUAGE,
                                    product=product) }}
-      {% endif %}
-      </div>
-    </article>
+    {% endif %}
+  </div>
+</article>
 {% endblock %}
 
 {% block below_main %}
-  <nav class="tabs">
-    <ul data-slug="kb-overview" class="tabs--list readout-modes">
-      {% for key, name in overview_modes %}
-        <li class="tabs--item mode {% if key == 2 %}active{% endif %}" data-url="{{ url('dashboards.contributors_overview_rows')|urlparams(max=10, mode=key, locale=locale, product=product.slug) }}">
-          <a class="tabs--link {% if key == 2 %}is-active{% endif %}" href="#">
-            <span>{{ name }}</span>
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  </nav>
+<nav class="tabs">
+  <ul data-slug="kb-overview" class="tabs--list readout-modes">
+    {% for key, name in overview_modes %}
+    <li class="tabs--item mode {% if key == 2 %}active{% endif %}"
+      data-url="{{ url('dashboards.contributors_overview_rows')|urlparams(max=10, mode=key, locale=locale, product=product.slug) }}">
+      <a class="tabs--link {% if key == 2 %}is-active{% endif %}" href="#">
+        <span>{{ name }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</nav>
 
-  <table id="kb-overview-table">
-    {% include 'dashboards/includes/kb_overview.html' %}
-  </table>
-  <div class="table-footer">
-    {% set pslug=product.slug if product!=None else None %}
-    <a href="{{ url('dashboards.contributors_overview')|urlparams(product=pslug, category=category) }}">{{ _('Complete overview...') }}</a>
-  </div>
+<table id="kb-overview-table">
+  {% include 'dashboards/includes/kb_overview.html' %}
+</table>
+<div class="table-footer">
+  {% set pslug=product.slug if product!=None else None %}
+  <a
+    href="{{ url('dashboards.contributors_overview')|urlparams(product=pslug, category=category) }}">{{ _('Complete overview...') }}</a>
+</div>
 {% endblock %}
 
 
 
 {% block side_top %}
-  {{ localization_sidebar_nav(settings.WIKI_DEFAULT_LANGUAGE, 'dashboard', True) }}
+{{ localization_sidebar_nav(settings.WIKI_DEFAULT_LANGUAGE, 'dashboard', True) }}
 {% endblock %}

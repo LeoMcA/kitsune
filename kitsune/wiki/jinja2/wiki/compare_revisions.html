@@ -9,18 +9,19 @@
 {% set meta = [('robots', 'noindex, nofollow')] %}
 
 {% block content %}
-  <div class="grid_9">
-    <article id="compare-revisions">
-      <hgroup>
-        <h1>{{ _('Compare Revisions') }}</h1>
-        <h2>{{ document.title }}</h2>
-      </hgroup>
-      {{ revision_diff(revision_from, revision_to) }}
-      <p><a href="{{ url('wiki.document_revisions', document.slug) }}">{{ _('Back to History') }}</a></p>
-    </article>
-  </div>
+<div class="grid_9">
+  <article id="compare-revisions">
+    <hgroup>
+      <h1>{{ _('Compare Revisions') }}</h1>
+      <h2>{{ document.title }}</h2>
+    </hgroup>
+    {{ revision_diff(revision_from, revision_to) }}
+    <p><a href="{{ url('wiki.document_revisions', document.slug) }}">{{ _('Back to History') }}</a>
+    </p>
+  </article>
+</div>
 {% endblock %}
 
 {% block side_top %}
-  {{ document_tools(document, document.parent, user, 'history', settings) }}
+{{ document_tools(document, document.parent, user, 'history', settings) }}
 {% endblock %}

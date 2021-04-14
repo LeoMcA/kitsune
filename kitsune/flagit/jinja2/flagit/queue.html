@@ -3,27 +3,32 @@
 {% set classes = 'flagged' %}
 
 {% block content %}
-  <div id="flagged-queue" class="sumo-page-section">
-    <h1 class="sumo-page-heading">{{ _('Flagged Content Pending Moderation') }}</h1>
-    <ul>
+<div id="flagged-queue" class="sumo-page-section">
+  <h1 class="sumo-page-heading">{{ _('Flagged Content Pending Moderation') }}</h1>
+  <ul>
     {% for object in objects %}
-      {% if loop.first %}<ul>{% endif %}
+    {% if loop.first %}<ul>{% endif %}
       <li class="{{ object.content_type }}">
         <hr>
         <hgroup>
-          <h2 class="sumo-card-heading">{{ _('Flagged {t} (Reason: {r})')|f(t=object.content_type, r=object.get_reason_display()) }}</h2>
+          <h2 class="sumo-card-heading">
+            {{ _('Flagged {t} (Reason: {r})')|f(t=object.content_type, r=object.get_reason_display()) }}
+          </h2>
           {% if object.notes %}
-            <p class="notes">{{ _('Other reason:') }} {{ object.notes }}</p>
+          <p class="notes">{{ _('Other reason:') }} {{ object.notes }}</p>
           {% endif %}
         </hgroup>
         <div class="wrap">
           {% if object.content_object %}
-            {% include 'flagit/includes/flagged_%s.html' % object.content_type.model %}
+          {% include 'flagit/includes/flagged_%s.html' % object.content_type.model %}
           {% else %}
-            <p>{{ _('{t} with id={id} no longer exists.')|f(t=object.content_type, id=object.object_id) }}</p>
+          <p>
+            {{ _('{t} with id={id} no longer exists.')|f(t=object.content_type, id=object.object_id) }}
+          </p>
           {% endif %}
           <h3 class="sumo-card-heading"><br>{{ _('Update Status:') }}</h3>
-          <form class="update inline-form" action="{{ url('flagit.update', object.id) }}" method="post">
+          <form class="update inline-form" action="{{ url('flagit.update', object.id) }}"
+            method="post">
             {% csrf_token %}
             <select name="status">
               <option value="">{{ _('Please select...') }}</option>
@@ -34,15 +39,17 @@
           </form>
         </div>
       </li>
-      {% if loop.last %}</ul>{% endif %}
+      {% if loop.last %}
+    </ul>{% endif %}
     {% else %}
-     <p>{{ _('There is no flagged content pending moderation.') }}</p>
+    <p>{{ _('There is no flagged content pending moderation.') }}</p>
     {% endfor %}
 
     <div class="sumo-button-wrap">
-      <a class="sumo-button primary-button" href="{{ url('users.deactivation_log') }}">{{ _('View all deactivated users') }}</a>
+      <a class="sumo-button primary-button"
+        href="{{ url('users.deactivation_log') }}">{{ _('View all deactivated users') }}</a>
     </div>
-  </div>
+</div>
 {% endblock %}
 
 {% block side %}
