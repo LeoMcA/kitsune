@@ -1,0 +1,5 @@
+{
+  "templating": "django",
+  "wrap_line_length": 99,
+  "editorconfig": true
+}

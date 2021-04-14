@@ -1,0 +1,5 @@
+- id: html-beautify
+  name: html-beautify
+  entry: npx html-beautify
+  language: node
+  files: \.html$

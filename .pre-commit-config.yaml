@@ -22,3 +22,7 @@ repos:
     rev: v2.3.0
     hooks:
       - id: pip-compile-multi-verify
+  - repo: .
+    rev: HEAD
+    hooks:
+      - id: html-beautify

@@ -70,6 +70,7 @@
     "cpx": "~1.5.0",
     "cssnano": "^4.1.10",
     "eslint": "1.10.3",
+    "js-beautify": "^1.13.11",
     "kss": "^3.0.0-beta.25",
     "mocha": "2.3.2",
     "mocha-jsdom": "^2.0.0",
