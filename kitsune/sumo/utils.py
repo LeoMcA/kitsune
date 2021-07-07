@@ -6,6 +6,7 @@ from datetime import datetime
 
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.contrib.staticfiles.templatetags.staticfiles import static as django_static
 from django.db import models
 from django.db.models.signals import pre_delete
 from django.utils import translation
@@ -350,3 +351,37 @@ def check_for_spam_content(data):
     has_links = has_blocked_link(data)
 
     return is_toll_free or is_nanp_number or has_links
+
+
+WEBPACK_SHORT_PATH_MAPPING = {
+    "protocol/": "node_modules/@mozilla-protocol/core/protocol/",
+    **{
+        f"{app}/": f"kitsune/{app}/static/{app}/"
+        for app in [
+            app.removeprefix("kitsune.")
+            for app in settings.INSTALLED_APPS
+            if app.startswith("kitsune.")
+        ]
+    },
+}
+_webpack_static_cache = {}
+
+
+def webpack_static(source_path):
+    """
+    Get the URL for an asset processed by webpack.
+    Accepts a shortened path to the source, like:
+    "sumo/img/mozilla-support.svg" rather than "kitsune/sumo/static/sumo/img/mozilla-support.svg"
+    """
+
+    if settings.WEBPACK_USE_STATIC_CACHE and source_path in _webpack_static_cache:
+        return _webpack_static_cache[source_path]
+
+    with open("./dist/source-to-asset.json") as f:
+        source_to_asset = json.load(f)
+        full_path = re.sub(
+            r"^[^/]+/", lambda m: WEBPACK_SHORT_PATH_MAPPING[m.group()], source_path
+        )
+        url = django_static(source_to_asset[full_path])
+        _webpack_static_cache[source_path] = url
+        return url

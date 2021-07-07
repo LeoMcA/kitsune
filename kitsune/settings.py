@@ -788,6 +788,8 @@ if DEBUG:
 
 NUNJUCKS_PRECOMPILE_BIN = path("node_modules/.bin/nunjucks-precompile")
 
+WEBPACK_USE_STATIC_CACHE = config("WEBPACK_USE_STATIC_CACHE", default=not DEBUG, cast=bool)
+
 #
 # Sessions
 SESSION_COOKIE_AGE = config(
